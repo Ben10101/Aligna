@@ -1,0 +1,92 @@
+[
+  {
+    "id": "support-executive-dashboard",
+    "technicalSpec": {
+      "entityName": "SupportPerformanceSnapshot",
+      "summary": "Painel executivo para acompanhar SLA, volume e gargalos do suporte interno.",
+      "architecture": {
+        "screenTemplate": "dashboard"
+      },
+      "structured": {
+        "classification": {
+          "screenTemplate": "dashboard",
+          "productMode": "manager-cockpit",
+          "intent": "monitor"
+        }
+      },
+      "domain": {
+        "fields": [
+          { "name": "statusFilter", "label": "Status", "inputType": "select", "required": true },
+          { "name": "timeRange", "label": "Periodo", "inputType": "select", "required": true }
+        ]
+      }
+    },
+    "expected": {
+      "pageArchetype": "executive-dashboard",
+      "componentMap": {
+        "recordsLead": "insightStrip",
+        "highlights": "insightCards"
+      }
+    }
+  },
+  {
+    "id": "compliance-approval-flow",
+    "technicalSpec": {
+      "entityName": "ComplianceApproval",
+      "summary": "Fluxo para revisar evidencias, registrar parecer e aprovar uma solicitacao regulatoria.",
+      "architecture": {
+        "screenTemplate": "wizard"
+      },
+      "structured": {
+        "classification": {
+          "screenTemplate": "wizard",
+          "productMode": "review-workbench",
+          "intent": "review"
+        }
+      },
+      "domain": {
+        "fields": [
+          { "name": "decision", "label": "Decisao", "inputType": "select", "required": true },
+          { "name": "comment", "label": "Parecer", "inputType": "textarea", "required": true }
+        ]
+      }
+    },
+    "expected": {
+      "pageArchetype": "approval-flow",
+      "componentMap": {
+        "recordsLead": "approvalSteps",
+        "summary": "settingsSnapshot"
+      }
+    }
+  },
+  {
+    "id": "notification-settings-console",
+    "technicalSpec": {
+      "entityName": "NotificationPreference",
+      "summary": "Tela para configurar preferencias de alerta e revisar o estado atual da conta.",
+      "architecture": {
+        "screenTemplate": "settings"
+      },
+      "structured": {
+        "classification": {
+          "screenTemplate": "settings",
+          "productMode": "self-service-settings",
+          "intent": "configure"
+        }
+      },
+      "domain": {
+        "fields": [
+          { "name": "notificationEmail", "label": "Email", "inputType": "email", "required": true },
+          { "name": "ticketUpdateAlerts", "label": "Alertas", "inputType": "toggle", "required": false }
+        ]
+      }
+    },
+    "expected": {
+      "pageArchetype": "settings-console",
+      "componentMap": {
+        "summary": "settingsSnapshot",
+        "activity": "activityTimeline"
+      }
+    }
+  }
+]

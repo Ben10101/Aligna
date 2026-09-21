@@ -1,0 +1,5 @@
+{
+  "project_id": "sprint5-backend-eval",
+  "idea": "Sistema para gerenciar chamados internos com prioridade, anexos, responsavel, status e historico para colaboradores, suporte e gestores.",
+  "architecture": "Stack: React no frontend, Express no backend, MySQL com Prisma, JWT para autenticacao.\nModulos: chamados, anexos, notificacoes, perfis de acesso e dashboard gerencial.\nAPI: contratos REST para tickets, anexos e preferencias.\nSeguranca: controle de acesso por papel e rastreabilidade de alteracoes."
+}

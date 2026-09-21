@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Mantém o diálogo de revisão rigorosamente centralizado, inclusive em telas
+   baixas ou quando o conteúdo exige rolagem. */
+[role='dialog'] {
+  display: grid;
+  place-items: center;
+}
+
+[role='dialog'] > div {
+  width: min(100%, 42rem);
+  max-height: calc(100vh - 2rem);
+}
+
+/* A revisão de backlog trabalha com diagnóstico e proposta lado a lado; ela
+   precisa usar a largura disponível em vez do limite dos diálogos compactos. */
+[role='dialog'].backlog-review-dialog > div {
+  width: min(100%, 1500px);
+  max-height: calc(100vh - 2rem);
+}
+
+/* Diff de artefatos segue o tema claro do produto. */
+pre.bg-slate-950 {
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  border: 1px solid #e2e8f0;
+}
+
 :root {
   /* Premium HSL Palette */
   --primary-h: 226;
@@ -70,6 +96,12 @@
 
   .dashboard-muted-card {
     @apply rounded-xl border border-slate-200 bg-slate-50;
+  }
+
+  .task-detail-page > section {
+    border-radius: 1rem !important;
+    border-color: rgb(226 232 240) !important;
+    box-shadow: 0 1px 3px rgb(15 23 42 / 0.06) !important;
   }
 
   .dashboard-badge {

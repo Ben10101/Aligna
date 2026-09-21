@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/check-mojibake.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "test:visual-contract": "node scripts/visual-contract.mjs"
+    "test:smoke:core": "npm run test:visual-contract && npm run test:code-studio-smoke && npm run test:project-status:smoke",
+    "test:visual-contract": "node scripts/visual-contract.mjs",
+    "test:code-studio-smoke": "node scripts/code-studio-smoke.mjs",
+    "test:project-status:smoke": "node scripts/project-status-smoke.mjs"
   },
   "dependencies": {
     "axios": "^1.6.0",

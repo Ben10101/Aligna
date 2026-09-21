@@ -1,0 +1,20 @@
+[
+  {
+    "name": "credito",
+    "story": "Como cliente, quero simular um empréstimo para conhecer uma estimativa.",
+    "expected_entities": ["empréstimo", "estimativa"],
+    "expected_intent": "simulation"
+  },
+  {
+    "name": "locacao_video",
+    "story": "Como cliente, quero consultar locações ativas e expiradas para acompanhar o prazo de acesso aos vídeos.",
+    "expected_entities": ["locações", "vídeos", "prazo de acesso"],
+    "expected_intent": "view"
+  },
+  {
+    "name": "biblioteca_digital",
+    "story": "Como pesquisador, quero reservar um livro disponível para garantir acesso ao exemplar.",
+    "expected_entities": ["livro", "exemplar"],
+    "expected_intent": "reserve"
+  }
+]

@@ -27,8 +27,6 @@ print(f"📍 Project root: {project_root}", file=sys.stderr)
 
 from agents.project_manager.agent import ProjectManager
 from agents.requirements_analyst.agent import RequirementsAnalyst
-from agents.architect.agent import Architect
-from agents.developer.agent_new import Developer
 from agents.qa_engineer.agent import QAEngineer
 from orchestrator.projectBuilder import ProjectBuilder
 
@@ -65,25 +63,9 @@ class Factory:
                     "save": lambda res: self.results.update({'requirements': res})
                 },
                 {
-                    "name": "Architect",
-                    "action": "Definindo arquitetura",
-                    "execute": lambda: Architect(self.project_id).process(self.idea, self.results['requirements']),
-                    "save": lambda res: self.results.update({'architecture': res})
-                },
-                {
-                    "name": "Developer",
-                    "action": "Gerando código",
-                    "execute": lambda: Developer(self.project_id).process(self.idea, self.results['architecture']),
-                    "save": lambda res: self.results.update({
-                        'code': res['code'],
-                        'primary_entity': res['primary_entity'],
-                        'attributes': res.get('attributes', [])
-                    })
-                },
-                {
                     "name": "QA Engineer",
                     "action": "Gerando testes",
-                    "execute": lambda: QAEngineer(self.project_id).process(self.idea, self.results['code']),
+                    "execute": lambda: QAEngineer(self.project_id).process(self.idea, self.results.get('code', '')),
                     "save": lambda res: self.results.update({'tests': res})
                 }
             ]

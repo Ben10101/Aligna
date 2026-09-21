@@ -9,17 +9,17 @@ const contracts = [
   {
     label: 'HomePage',
     file: 'HomePage.jsx',
-    includes: ['AppShell', 'Readiness', 'Governanca', 'Alertas ativos'],
+    includes: ['Aligna', 'Requirement Intelligence', 'Da ideia ao requisito validado', 'Critérios de aceite', 'Histórico do requisito'],
   },
   {
     label: 'CodeStudioPage',
     file: 'CodeStudioPage.jsx',
-    includes: ['AppShell', 'Readiness premium', 'Alertas ativos', 'Historico operacional'],
+    includes: ['Implementação', 'Workspace de entrega', 'Acompanhamento no produto', 'Painel operacional da esteira'],
   },
   {
     label: 'ProjectsPage',
     file: 'ProjectsPage.jsx',
-    includes: ['Arquitetura', 'Operacional'],
+    includes: ['Projetos criados', 'Projetos disponíveis', 'Abrir projeto'],
   },
 ];
 

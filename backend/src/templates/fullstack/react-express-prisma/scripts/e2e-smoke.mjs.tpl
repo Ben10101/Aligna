@@ -20,23 +20,17 @@ async function listFeaturePages() {
 const failures = [];
 const appContent = await readSafe('apps/web/src/App.tsx');
 
-if (!appContent.includes('AppFrame') || !appContent.includes('AppHeader') || !appContent.includes('StudioHome')) {
-  failures.push('O shell principal nao usa o trio AppFrame/AppHeader/StudioHome.');
+if (!appContent.includes('AppFrame') || !appContent.includes('AppHeader') || !appContent.includes('SidebarNav')) {
+  failures.push('O shell principal nao usa o trio AppFrame/AppHeader/SidebarNav.');
 }
 
 for (const pagePath of await listFeaturePages()) {
   const pageContent = await readSafe(path.relative(root, pagePath));
-  if (!pageContent.includes('FeaturePage')) {
-    failures.push(`${path.relative(root, pagePath)} nao usa FeaturePage.`);
-  }
-  if (!/highlights=\{/.test(pageContent)) {
-    failures.push(`${path.relative(root, pagePath)} nao define highlights de experiencia.`);
-  }
-  if (!/metrics=\{\[/.test(pageContent)) {
-    failures.push(`${path.relative(root, pagePath)} nao define metricas de tela.`);
-  }
-  if (!/layout="(crud|split|settings|wizard|dashboard)"/.test(pageContent)) {
-    failures.push(`${path.relative(root, pagePath)} nao declara layout do design system.`);
+  const importsSharedUi =
+    pageContent.includes('packages/ui/src/index.tsx') ||
+    pageContent.includes('/packages/ui/src/index.tsx');
+  if (!importsSharedUi) {
+    failures.push(`${path.relative(root, pagePath)} nao usa o design system compartilhado.`);
   }
 }
 

@@ -1,10 +1,16 @@
 const buckets = new Map();
 
-function getClientKey(req) {
-  const forwarded = req.headers['x-forwarded-for'];
-  if (typeof forwarded === 'string' && forwarded.trim()) {
-    return forwarded.split(',')[0].trim();
+// Limpeza de memória a cada 1 minuto para evitar Memory Leak (OOM)
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, bucket] of buckets.entries()) {
+    if (now > bucket.resetAt) {
+      buckets.delete(key);
+    }
   }
+}, 60_000).unref();
+
+function getClientKey(req) {
   return req.ip || req.socket?.remoteAddress || 'unknown';
 }
 
@@ -13,12 +19,31 @@ function matchesSensitiveRoute(req) {
     req.path.startsWith('/auth/login') ||
     req.path.startsWith('/auth/register') ||
     req.path.startsWith('/auth/refresh') ||
+    req.path.startsWith('/auth/logout') ||
+    req.path.startsWith('/auth/ai-settings') ||
+    req.path.startsWith('/observability') ||
+    req.path.startsWith('/governance') ||
     req.path.includes('/generate-backlog') ||
     req.path.includes('/generate-architecture') ||
     req.path.includes('/requirements/run') ||
-    req.path.includes('/qa/run') ||
-    req.path.includes('/implementation/run')
+    req.path.includes('/qa/run')
   );
+}
+
+function normalizeRateLimitPath(path) {
+  return String(path || '')
+    .replace(/[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}/gi, ':id')
+    .replace(/\/\d+(?=\/|$)/g, '/:id');
+}
+
+function getRateLimitScope(req, sensitive) {
+  if (!sensitive) return 'default';
+
+  // Authentication, AI settings and expensive agent runs used to share the
+  // same `sensitive` bucket. A normal local workflow could then exhaust the
+  // login allowance merely by opening settings or generating a backlog.
+  // Keep the rate limit, but isolate it by protected operation.
+  return `sensitive:${req.method}:${normalizeRateLimitPath(req.path)}`;
 }
 
 export function getRateLimitConfig(sensitive = false) {
@@ -42,6 +67,9 @@ export function applySecurityHeaders(req, res, next) {
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
   res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cache-Control', 'no-store, max-age=0, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
   if (process.env.NODE_ENV === 'production') {
     res.setHeader('Strict-Transport-Security', 'max-age=15552000; includeSubDomains');
   }
@@ -50,8 +78,10 @@ export function applySecurityHeaders(req, res, next) {
 
 export function apiRateLimiter(req, res, next) {
   const now = Date.now();
-  const key = `${getClientKey(req)}:${matchesSensitiveRoute(req) ? 'sensitive' : 'default'}`;
-  const rateConfig = getRateLimitConfig(matchesSensitiveRoute(req));
+  const sensitive = matchesSensitiveRoute(req);
+  const principal = req.authUser?.uuid ? `user:${req.authUser.uuid}` : `ip:${getClientKey(req)}`;
+  const key = `${principal}:${getRateLimitScope(req, sensitive)}`;
+  const rateConfig = getRateLimitConfig(sensitive);
   const { windowMs, limit } = rateConfig;
 
   const bucket = buckets.get(key);

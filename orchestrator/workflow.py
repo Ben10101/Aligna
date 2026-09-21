@@ -21,18 +21,6 @@ class Workflow:
             'output': 'requirements'
         },
         {
-            'name': 'Architect',
-            'description': 'Define arquitetura técnica',
-            'agent': 'Architect',
-            'output': 'architecture'
-        },
-        {
-            'name': 'Developer',
-            'description': 'Gera estrutura de código inicial',
-            'agent': 'Developer',
-            'output': 'code'
-        },
-        {
             'name': 'QA Engineer',
             'description': 'Gera plano de testes',
             'agent': 'QAEngineer',

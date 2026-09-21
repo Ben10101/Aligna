@@ -1,0 +1,104 @@
+[
+  {
+    "name": "fleet-maintenance-queue",
+    "expectedArchetype": "operations-queue",
+    "expectedPattern": "linear-queue",
+    "technicalSpec": {
+      "featureKey": "fleet-maintenance-escalations",
+      "entityName": "MaintenanceIncident",
+      "summary": "Fila de manutencoes criticas da frota com prioridade, equipe responsavel e escalonamento entre oficinas.",
+      "frontend": {
+        "suggestedRoute": "/fleet/maintenance/escalations",
+        "navigationLabel": "Escalonamentos da Frota"
+      },
+      "architecture": {
+        "screenTemplate": "workspace"
+      },
+      "structured": {
+        "classification": {
+          "screenTemplate": "workspace",
+          "productMode": "structured-workspace",
+          "intent": "review"
+        }
+      },
+      "domain": {
+        "fields": [
+          { "name": "vehicleId", "label": "Veiculo", "inputType": "text", "required": true },
+          { "name": "priority", "label": "Prioridade", "inputType": "select", "required": true, "selectOptions": ["baixa", "media", "alta", "critica"] },
+          { "name": "targetTeam", "label": "Equipe", "inputType": "select", "required": true, "selectOptions": ["oficina", "suprimentos", "operacao"] }
+        ]
+      }
+    },
+    "task": {
+      "title": "Gerenciar fila critica de manutencao da frota",
+      "description": "Acompanhar itens urgentes, ownership e proximo passo operacional."
+    }
+  },
+  {
+    "name": "pharma-compliance-review",
+    "expectedArchetype": "approval-flow",
+    "expectedPattern": "github-review",
+    "technicalSpec": {
+      "featureKey": "pharma-compliance-approval",
+      "entityName": "ComplianceReview",
+      "summary": "Fluxo de aprovacao regulatoria com parecer, historico e trilha de auditoria.",
+      "frontend": {
+        "suggestedRoute": "/compliance/reviews"
+      },
+      "architecture": {
+        "screenTemplate": "wizard"
+      },
+      "structured": {
+        "classification": {
+          "screenTemplate": "wizard",
+          "productMode": "review-workbench",
+          "intent": "review"
+        }
+      },
+      "domain": {
+        "fields": [
+          { "name": "submissionId", "label": "Submissao", "inputType": "text", "required": true },
+          { "name": "approvalDecision", "label": "Decisao", "inputType": "select", "required": true, "selectOptions": ["aprovar", "revisar", "rejeitar"] },
+          { "name": "auditNotes", "label": "Historico", "inputType": "textarea", "required": true }
+        ]
+      }
+    },
+    "task": {
+      "title": "Aprovar submissao regulatoria",
+      "description": "Registrar parecer, manter historico auditavel e decidir o proximo passo."
+    }
+  },
+  {
+    "name": "creator-payout-settings",
+    "expectedArchetype": "settings-console",
+    "expectedPattern": "stripe-settings",
+    "technicalSpec": {
+      "featureKey": "creator-payout-preferences",
+      "entityName": "PayoutPreference",
+      "summary": "Configuracao de conta bancaria, preferencia de repasse e alertas de pagamento.",
+      "frontend": {
+        "suggestedRoute": "/finance/payout-settings"
+      },
+      "architecture": {
+        "screenTemplate": "settings"
+      },
+      "structured": {
+        "classification": {
+          "screenTemplate": "settings",
+          "productMode": "self-service-settings",
+          "intent": "configure"
+        }
+      },
+      "domain": {
+        "fields": [
+          { "name": "bankAccount", "label": "Conta bancaria", "inputType": "text", "required": true },
+          { "name": "payoutFrequency", "label": "Frequencia", "inputType": "select", "required": true, "selectOptions": ["semanal", "quinzenal", "mensal"] }
+        ]
+      }
+    },
+    "task": {
+      "title": "Configurar preferencias de repasse",
+      "description": "Ajustar configuracoes financeiras do criador com baixo atrito."
+    }
+  }
+]

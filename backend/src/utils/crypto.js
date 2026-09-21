@@ -1,4 +1,4 @@
-import { createHmac, createHash, randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'crypto';
+import { createCipheriv, createDecipheriv, createHmac, createHash, randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'crypto';
 import { promisify } from 'util';
 
 const scrypt = promisify(scryptCallback);
@@ -89,3 +89,36 @@ export function verifyJwt(token, secret) {
   return payload;
 }
 
+function deriveSymmetricKey(secret) {
+  return createHash('sha256').update(String(secret)).digest();
+}
+
+export function encryptSensitiveValue(value, secret) {
+  const iv = randomBytes(12);
+  const cipher = createCipheriv('aes-256-gcm', deriveSymmetricKey(secret), iv);
+  const encrypted = Buffer.concat([cipher.update(String(value), 'utf8'), cipher.final()]);
+  const authTag = cipher.getAuthTag();
+
+  return `${iv.toString('base64url')}.${authTag.toString('base64url')}.${encrypted.toString('base64url')}`;
+}
+
+export function decryptSensitiveValue(payload, secret) {
+  const [ivEncoded, tagEncoded, encryptedEncoded] = String(payload || '').split('.');
+  if (!ivEncoded || !tagEncoded || !encryptedEncoded) {
+    throw new Error('Payload criptografado invalido.');
+  }
+
+  const decipher = createDecipheriv(
+    'aes-256-gcm',
+    deriveSymmetricKey(secret),
+    Buffer.from(ivEncoded, 'base64url')
+  );
+  decipher.setAuthTag(Buffer.from(tagEncoded, 'base64url'));
+
+  const decrypted = Buffer.concat([
+    decipher.update(Buffer.from(encryptedEncoded, 'base64url')),
+    decipher.final(),
+  ]);
+
+  return decrypted.toString('utf8');
+}

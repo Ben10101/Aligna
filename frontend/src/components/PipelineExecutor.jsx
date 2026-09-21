@@ -22,7 +22,7 @@ export default function PipelineExecutor({ idea, answers }) {
   const [persistedTasks, setPersistedTasks] = useState([]);
   const navigate = useNavigate();
 
-  const getStageName = (agent) => (agent === 'qa_engineer' ? 'qa' : 'requirements');
+  const getStageName = (agent) => (agent === 'qa_engineer' ?'qa' : 'requirements');
   const isInteractiveStage = (agent) => agent === 'requirements_analyst' || agent === 'qa_engineer';
 
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function PipelineExecutor({ idea, answers }) {
         );
 
         const qaPending = qaEligibleTasks.filter(
-          (task) => !task.artifacts?.some((artifact) => artifact.artifactType === 'test_plan' && artifact.isCurrent)
+          (task) => !task.artifacts?.some((artifact) => ['qa_validation_cases', 'test_plan'].includes(artifact.artifactType) && artifact.isCurrent)
         ).length;
 
         setStagePendingCounts({ requirements: requirementsPending, qa: qaPending });
@@ -154,14 +154,16 @@ export default function PipelineExecutor({ idea, answers }) {
     const stageName = getStageName(currentStage.agent);
     const relevantTasks =
       stageName === 'requirements'
-        ? persistedTasks
+        ?persistedTasks
         : persistedTasks.filter((task) =>
-            task.artifacts?.some((artifact) => artifact.artifactType === 'requirements' && artifact.isCurrent)
+            task.artifacts?.some((artifact) => artifact.artifactType === 'requirements' && artifact.isCurrent && artifact.isApproved)
           );
 
     const completedTasks = relevantTasks.filter((task) =>
       task.artifacts?.some((artifact) =>
-        artifact.artifactType === (stageName === 'requirements' ? 'requirements' : 'test_plan') && artifact.isCurrent
+        (stageName === 'requirements'
+          ? artifact.artifactType === 'requirements'
+          : ['qa_validation_cases', 'test_plan'].includes(artifact.artifactType)) && artifact.isCurrent && artifact.isApproved
       )
     );
 
@@ -170,7 +172,7 @@ export default function PipelineExecutor({ idea, answers }) {
     if (!isReady && !bypassValidation) {
       const pendingCount = relevantTasks.length - completedTasks.length;
       setError(
-        `Voce ainda tem ${pendingCount > 0 ? pendingCount : 'algumas'} historias pendentes na coluna "A Fazer". Processe todas antes de avancar.`
+        `Voce ainda tem ${pendingCount > 0 ?pendingCount : 'algumas'} historias pendentes na coluna "A Fazer". Processe todas antes de avancar.`
       );
       return;
     }
@@ -182,13 +184,15 @@ export default function PipelineExecutor({ idea, answers }) {
       );
     }
 
-    const header = stageName === 'qa' ? '## Plano de testes para:' : '## Requisitos para:';
-    const artifactType = stageName === 'qa' ? 'test_plan' : 'requirements';
+    const header = stageName === 'qa' ?'## Casos de validação para:' : '## Requisitos para:';
+    const artifactType = stageName === 'qa' ?'qa_validation_cases' : 'requirements';
 
     const combinedOutput = tasksToAdvance
       .map((task) => {
-        const artifact = task.artifacts?.find((item) => item.artifactType === artifactType && item.isCurrent);
-        return artifact ? `${header} "${task.title}"\n\n${artifact.content}` : null;
+        const artifact = task.artifacts?.find((item) => (stageName === 'qa'
+          ? ['qa_validation_cases', 'test_plan'].includes(item.artifactType)
+          : item.artifactType === artifactType) && item.isCurrent);
+        return artifact ?`${header} "${task.title}"\n\n${artifact.content}` : null;
       })
       .filter(Boolean)
       .join('\n\n---\n\n');
@@ -204,7 +208,7 @@ export default function PipelineExecutor({ idea, answers }) {
     if (runMode === 'mock_to_qa') {
       const reqKey = `kanban_stories_${projectId}_requirements`;
       const savedReqsRaw = localStorage.getItem(reqKey);
-      return savedReqsRaw ? JSON.parse(savedReqsRaw) : [];
+      return savedReqsRaw ?JSON.parse(savedReqsRaw) : [];
     }
 
     if (projectId) {
@@ -212,7 +216,7 @@ export default function PipelineExecutor({ idea, answers }) {
         id: task.uuid,
         text: task.title,
         status: task.artifacts?.some((artifact) => artifact.artifactType === 'requirements' && artifact.isCurrent)
-          ? 'done'
+          ?'done'
           : 'todo',
         requirement:
           task.artifacts?.find((artifact) => artifact.artifactType === 'requirements' && artifact.isCurrent)?.content ||
@@ -312,7 +316,7 @@ export default function PipelineExecutor({ idea, answers }) {
 
       {error && (
         <div className="mb-6 rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-700" role="alert">
-          <p className="font-bold">Erro na execucao</p>
+          <p className="font-bold">Erro na execu??o</p>
           <p>{error}</p>
         </div>
       )}
@@ -331,13 +335,13 @@ export default function PipelineExecutor({ idea, answers }) {
               </div>
               {currentStep === index && (
                 <>
-                  {isInteractiveStage(stage.agent) ? (
+                  {isInteractiveStage(stage.agent) ?(
                     <span className="rounded-full bg-blue-50 px-5 py-2 text-sm font-semibold text-[#102a72]">
                       Ação pendente no board abaixo
                     </span>
                   ) : (
                     <button onClick={() => handleRunStep(index)} disabled={loading} className="dashboard-button-primary">
-                      {loading ? 'Executando...' : `Executar ${stage.name}`}
+                      {loading ?'Executando...' : `Executar ${stage.name}`}
                     </button>
                   )}
                 </>
@@ -374,7 +378,7 @@ export default function PipelineExecutor({ idea, answers }) {
                   <div className="prose prose-slate max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {typeof artifacts[stage.outputKey] === 'string'
-                        ? artifacts[stage.outputKey]
+                        ?artifacts[stage.outputKey]
                         : `\`\`\`json\n${JSON.stringify(artifacts[stage.outputKey], null, 2)}\n\`\`\``}
                     </ReactMarkdown>
                   </div>

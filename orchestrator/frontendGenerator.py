@@ -23,12 +23,25 @@ class FrontendGenerator:
     
     def create_app_jsx(self):
         """Cria App.jsx funcional"""
-        app_jsx = f"""import {{ useState, useEffect }} from 'react'
+        app_jsx = f"""import {{ Suspense, lazy, useState, useEffect }} from 'react'
 import {{ BrowserRouter as Router, Routes, Route, Navigate }} from 'react-router-dom'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
-import {self.page_name} from './pages/{self.page_name}'
+const LoginPage = lazy(() => import('./pages/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/RegisterPage'))
+const {self.page_name} = lazy(() => import('./pages/{self.page_name}'))
 import './App.css'
+
+function RouteLoadingFallback() {{
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6">
+      <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-6 text-center shadow-sm">
+        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-blue-600">Carregando</p>
+        <p className="mt-2 text-sm text-slate-600">Preparando a proxima tela do projeto gerado...</p>
+      </div>
+    </div>
+  )
+}}
+
+const routeLoadingFallback = <RouteLoadingFallback />
 
 export default function App() {{
   const [user, setUser] = useState(null)
@@ -63,19 +76,21 @@ export default function App() {{
 
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={{
-          user ? <Navigate to="/" /> : <LoginPage onLogin={{handleLogin}} />
-        }} />
-        
-        <Route path="/register" element={{
-          user ? <Navigate to="/" /> : <RegisterPage onRegister={{handleLogin}} />
-        }} />
-        
-        <Route path="/" element={{
-          user ? <{self.page_name} user={{user}} onLogout={{handleLogout}} /> : <Navigate to="/login" />
-        }} />
-      </Routes>
+      <Suspense fallback={{routeLoadingFallback}}>
+        <Routes>
+          <Route path="/login" element={{
+            user ? <Navigate to="/" /> : <LoginPage onLogin={{handleLogin}} />
+          }} />
+          
+          <Route path="/register" element={{
+            user ? <Navigate to="/" /> : <RegisterPage onRegister={{handleLogin}} />
+          }} />
+          
+          <Route path="/" element={{
+            user ? <{self.page_name} user={{user}} onLogout={{handleLogout}} /> : <Navigate to="/login" />
+          }} />
+        </Routes>
+      </Suspense>
     </Router>
   )
 }}
@@ -666,7 +681,16 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false
+    sourcemap: false,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+          if (id.includes('react-router-dom')) return 'router'
+          if (id.includes('react') || id.includes('scheduler')) return 'react-vendor'
+        }
+      }
+    }
   }
 })
 """

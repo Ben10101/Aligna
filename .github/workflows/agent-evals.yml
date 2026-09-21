@@ -1,0 +1,69 @@
+name: Agent Evals
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.claude/**'
+      - 'agent-evals/**'
+      - 'scripts/agent-evals/**'
+      - 'frontend/**'
+      - 'backend/**'
+      - 'orchestrator/**'
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '.claude/**'
+      - 'agent-evals/**'
+      - 'scripts/agent-evals/**'
+      - 'frontend/**'
+      - 'backend/**'
+      - 'orchestrator/**'
+
+jobs:
+  eval-baselines:
+    runs-on: ubuntu-latest
+    env:
+      AUTH_ACCESS_SECRET: ci-auth-secret-change-me
+      AI_SETTINGS_SECRET: ci-ai-settings-secret-change-me
+      FRONTEND_ORIGIN: http://localhost:5173
+      VITE_FRONTEND_URL: http://localhost:5173
+      DATABASE_URL: mysql://root@localhost:3306/ai_factory
+      AI_PROMPT_VERSION: v2-claude-agents
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Run generator security eval scaffold with validation
+        run: node scripts/agent-evals/run-eval.mjs generator-security-baseline --prompt-version ${AI_PROMPT_VERSION} --evaluator CI --model github-actions --target "generator security baseline workflow" --run
+
+      - name: Run backend auth eval scaffold with validation
+        run: node scripts/agent-evals/run-eval.mjs backend-auth-hardening --prompt-version ${AI_PROMPT_VERSION} --evaluator CI --model github-actions --target "backend auth hardening workflow" --run
+
+      - name: Run frontend bundle eval scaffold with validation
+        run: node scripts/agent-evals/run-eval.mjs frontend-bundle-discipline --prompt-version ${AI_PROMPT_VERSION} --evaluator CI --model github-actions --target "frontend bundle discipline workflow" --run
+
+      - name: Upload eval artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-eval-results
+          path: agent-evals/results/*.md

@@ -1,0 +1,40 @@
+{
+  "taskTitle": "Configurar preferencias de notificacao",
+  "summary": "Permitir que o atendente escolha quais alertas de ticket deseja receber.",
+  "userValue": "Menos ruido e mais controle sobre avisos importantes.",
+  "frontendRoute": "/settings/notifications",
+  "screenTemplate": "settings",
+  "productMode": "self-service-settings",
+  "uiIntent": "configure",
+  "uiRole": "configuracao",
+  "actorLabel": "Atendente",
+  "submitLabel": "Salvar preferencias",
+  "fields": [
+    {
+      "name": "email",
+      "label": "Email principal",
+      "inputType": "email",
+      "required": true
+    },
+    {
+      "name": "ticketUpdateAlerts",
+      "label": "Alertas de atualizacao",
+      "inputType": "toggle",
+      "required": false
+    }
+  ],
+  "uiStates": {
+    "empty": "Sem preferencias definidas"
+  },
+  "intentDirection": {
+    "primarySurface": "form",
+    "secondarySurface": "state-summary"
+  },
+  "productDirection": {
+    "tone": "claro",
+    "density": "enxuto"
+  },
+  "designReference": {},
+  "repairGoals": {},
+  "bypassCache": true
+}

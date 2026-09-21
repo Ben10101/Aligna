@@ -1,0 +1,2232 @@
+{
+  "schemaVersion": 1,
+  "archivedAt": "2026-09-09T17:46:27.940Z",
+  "purpose": "Snapshot before clearing active project operational data.",
+  "project": {
+    "id": "32",
+    "uuid": "38c75d91-a3b9-40b3-a59c-3ce08dfd5715",
+    "workspaceId": "7",
+    "name": "Reserva de Salas",
+    "slug": "reserva-de-salas",
+    "description": "Sistema para agendamento e gestão de salas de aula",
+    "vision": "Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços.",
+    "startMode": null,
+    "templateKey": "education-platform-suite",
+    "intakeConfig": {
+      "projectTemplateKey": "education-platform-suite",
+      "projectDna": {
+        "version": 1,
+        "generatedAt": "2026-09-09T17:42:20.197Z",
+        "project": {
+          "name": "Reserva de Salas",
+          "slugHint": "reserva-de-salas",
+          "templateKey": "education-platform-suite",
+          "productMode": "product-workspace",
+          "experienceStyle": "professional-balanced",
+          "primaryActor": "operador principal",
+          "domainLanguage": [
+            "reserva",
+            "salas",
+            "agendamento",
+            "gestao",
+            "aula",
+            "centralizar",
+            "reduzir",
+            "conflitos",
+            "horario",
+            "visibilidade",
+            "tempo",
+            "real"
+          ]
+        },
+        "positioning": {
+          "summary": "Sistema para agendamento e gestão de salas de aula",
+          "promise": "Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços."
+        },
+        "designSystem": {
+          "allowedScreenFamilies": [
+            "workspace",
+            "executive-cockpit",
+            "settings-console"
+          ],
+          "defaultScreenFamily": "workspace",
+          "navigationStyle": "sidebar-operational",
+          "visualTone": "professional"
+        },
+        "coherenceRules": {
+          "mustPreserve": [
+            "domainLanguage",
+            "productMode",
+            "experienceStyle"
+          ],
+          "forbiddenDrift": [
+            "generic-crud-without-domain",
+            "cross-domain-language-bleed"
+          ]
+        }
+      },
+      "idea": "Sistema para agendamento e gestão de salas de aula",
+      "objective": "Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços.",
+      "audience": "Professores consultam e reservam salas para aulas e atividades. Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário.",
+      "answers": {
+        "objective": "Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços.",
+        "audience": "Professores consultam e reservam salas para aulas e atividades. Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário.",
+        "mainFlows": "Consultar disponibilidade por data, horário e capacidade; reservar uma sala; cancelar ou alterar reserva; cadastrar e editar salas; visualizar agenda e ocupação das salas; bloquear salas indisponíveis para manutenção.",
+        "constraints": "Uma sala não pode ter duas reservas sobrepostas. Somente usuários autenticados podem criar ou alterar reservas. A reserva deve considerar capacidade e recursos da sala. Salas em manutenção não podem ser reservadas. Alterações e cancelamentos devem ficar registrados.",
+        "clarifications": [],
+        "elicitationAnswers": {}
+      },
+      "lastGeneratedAt": "2026-09-09T17:30:42.485Z",
+      "requirementsContract": {
+        "version": 1,
+        "evidence": {
+          "facts": [
+            {
+              "id": "briefing.1",
+              "text": "Sistema para agendamento e gestão de salas de aula",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.3",
+              "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.4",
+              "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.5",
+              "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.6",
+              "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.7",
+              "text": "reservar uma sala",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.8",
+              "text": "cancelar ou alterar reserva",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.9",
+              "text": "cadastrar e editar salas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.10",
+              "text": "visualizar agenda e ocupação das salas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.11",
+              "text": "bloquear salas indisponíveis para manutenção",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.12",
+              "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.13",
+              "text": "Somente usuários autenticados podem criar ou alterar reservas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.14",
+              "text": "A reserva deve considerar capacidade e recursos da sala",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.15",
+              "text": "Salas em manutenção não podem ser reservadas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.16",
+              "text": "Alterações e cancelamentos devem ficar registrados",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.17",
+              "text": "elicitationAnswers: {}",
+              "type": "briefing"
+            }
+          ]
+        },
+        "requirements": [
+          {
+            "id": "REQ-1",
+            "text": "Sistema para agendamento e gestão de salas de aula",
+            "source_ids": [
+              "briefing.1"
+            ]
+          },
+          {
+            "id": "REQ-3",
+            "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+            "source_ids": [
+              "briefing.3"
+            ]
+          },
+          {
+            "id": "REQ-4",
+            "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+            "source_ids": [
+              "briefing.4"
+            ]
+          },
+          {
+            "id": "REQ-5",
+            "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+            "source_ids": [
+              "briefing.5"
+            ]
+          },
+          {
+            "id": "REQ-6",
+            "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+            "source_ids": [
+              "briefing.6"
+            ]
+          },
+          {
+            "id": "REQ-7",
+            "text": "reservar uma sala",
+            "source_ids": [
+              "briefing.7"
+            ]
+          },
+          {
+            "id": "REQ-8",
+            "text": "cancelar ou alterar reserva",
+            "source_ids": [
+              "briefing.8"
+            ]
+          },
+          {
+            "id": "REQ-9",
+            "text": "cadastrar e editar salas",
+            "source_ids": [
+              "briefing.9"
+            ]
+          },
+          {
+            "id": "REQ-10",
+            "text": "visualizar agenda e ocupação das salas",
+            "source_ids": [
+              "briefing.10"
+            ]
+          },
+          {
+            "id": "REQ-11",
+            "text": "bloquear salas indisponíveis para manutenção",
+            "source_ids": [
+              "briefing.11"
+            ]
+          },
+          {
+            "id": "REQ-12",
+            "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+            "source_ids": [
+              "briefing.12"
+            ]
+          },
+          {
+            "id": "REQ-13",
+            "text": "Somente usuários autenticados podem criar ou alterar reservas",
+            "source_ids": [
+              "briefing.13"
+            ]
+          },
+          {
+            "id": "REQ-14",
+            "text": "A reserva deve considerar capacidade e recursos da sala",
+            "source_ids": [
+              "briefing.14"
+            ]
+          },
+          {
+            "id": "REQ-15",
+            "text": "Salas em manutenção não podem ser reservadas",
+            "source_ids": [
+              "briefing.15"
+            ]
+          },
+          {
+            "id": "REQ-16",
+            "text": "Alterações e cancelamentos devem ficar registrados",
+            "source_ids": [
+              "briefing.16"
+            ]
+          },
+          {
+            "id": "REQ-17",
+            "text": "elicitationAnswers: {}",
+            "source_ids": [
+              "briefing.17"
+            ]
+          }
+        ],
+        "assumptions": [],
+        "questions": [
+          {
+            "id": "CQ-AEC01E645C",
+            "question": "Quais perfis podem cadastrar salas, reservar, alterar ou cancelar reservas e bloquear salas?",
+            "reason": "Definir as permissoes e responsabilidades dos perfis do produto.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "blocking": true,
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-7C9D6A8992",
+            "question": "Quais regras de reserva devem valer para duracao, antecedencia, recorrencia e cancelamento?",
+            "reason": "Definir as regras operacionais que evitam conflitos e reservas indevidas.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "blocking": true,
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-5A43C2180D",
+            "question": "Quais informacoes a equipe administrativa precisa acompanhar na agenda e nos relatorios do MVP?",
+            "reason": "Definir a visibilidade operacional necessaria para o primeiro lancamento.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "blocking": true,
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          }
+        ],
+        "blocking_questions": [
+          {
+            "id": "CQ-AEC01E645C",
+            "question": "Quais perfis podem cadastrar salas, reservar, alterar ou cancelar reservas e bloquear salas?",
+            "reason": "Definir as permissoes e responsabilidades dos perfis do produto.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "blocking": true,
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-7C9D6A8992",
+            "question": "Quais regras de reserva devem valer para duracao, antecedencia, recorrencia e cancelamento?",
+            "reason": "Definir as regras operacionais que evitam conflitos e reservas indevidas.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "blocking": true,
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-5A43C2180D",
+            "question": "Quais informacoes a equipe administrativa precisa acompanhar na agenda e nos relatorios do MVP?",
+            "reason": "Definir a visibilidade operacional necessaria para o primeiro lancamento.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "blocking": true,
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          }
+        ],
+        "findings": [],
+        "analysis_status": "degraded",
+        "semantic_context": {},
+        "decision": "BLOCK"
+      },
+      "backlogClarifications": [],
+      "pmElicitation": {
+        "version": 1,
+        "status": "READY_FOR_REVIEW",
+        "phase_history": [
+          {
+            "phase": "DISCOVERY",
+            "status": "completed"
+          },
+          {
+            "phase": "ELICITATION",
+            "status": "completed"
+          },
+          {
+            "phase": "READINESS_EVALUATION",
+            "status": "completed"
+          },
+          {
+            "phase": "SYNTHESIS",
+            "status": "completed"
+          },
+          {
+            "phase": "READY_FOR_REVIEW",
+            "status": "active"
+          }
+        ],
+        "known_facts": [
+          {
+            "id": "REQ-1",
+            "text": "Sistema para agendamento e gestão de salas de aula",
+            "source_ids": [
+              "briefing.1"
+            ]
+          },
+          {
+            "id": "REQ-3",
+            "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+            "source_ids": [
+              "briefing.3"
+            ]
+          },
+          {
+            "id": "REQ-4",
+            "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+            "source_ids": [
+              "briefing.4"
+            ]
+          },
+          {
+            "id": "REQ-5",
+            "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+            "source_ids": [
+              "briefing.5"
+            ]
+          },
+          {
+            "id": "REQ-6",
+            "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+            "source_ids": [
+              "briefing.6"
+            ]
+          },
+          {
+            "id": "REQ-7",
+            "text": "reservar uma sala",
+            "source_ids": [
+              "briefing.7"
+            ]
+          },
+          {
+            "id": "REQ-8",
+            "text": "cancelar ou alterar reserva",
+            "source_ids": [
+              "briefing.8"
+            ]
+          },
+          {
+            "id": "REQ-9",
+            "text": "cadastrar e editar salas",
+            "source_ids": [
+              "briefing.9"
+            ]
+          },
+          {
+            "id": "REQ-10",
+            "text": "visualizar agenda e ocupação das salas",
+            "source_ids": [
+              "briefing.10"
+            ]
+          },
+          {
+            "id": "REQ-11",
+            "text": "bloquear salas indisponíveis para manutenção",
+            "source_ids": [
+              "briefing.11"
+            ]
+          },
+          {
+            "id": "REQ-12",
+            "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+            "source_ids": [
+              "briefing.12"
+            ]
+          },
+          {
+            "id": "REQ-13",
+            "text": "Somente usuários autenticados podem criar ou alterar reservas",
+            "source_ids": [
+              "briefing.13"
+            ]
+          },
+          {
+            "id": "REQ-14",
+            "text": "A reserva deve considerar capacidade e recursos da sala",
+            "source_ids": [
+              "briefing.14"
+            ]
+          },
+          {
+            "id": "REQ-15",
+            "text": "Salas em manutenção não podem ser reservadas",
+            "source_ids": [
+              "briefing.15"
+            ]
+          },
+          {
+            "id": "REQ-16",
+            "text": "Alterações e cancelamentos devem ficar registrados",
+            "source_ids": [
+              "briefing.16"
+            ]
+          },
+          {
+            "id": "REQ-17",
+            "text": "elicitationAnswers: {}",
+            "source_ids": [
+              "briefing.17"
+            ]
+          }
+        ],
+        "confirmed_decisions": [
+          {
+            "question_id": "CQ-AEC01E645C",
+            "decision": "Professor: consultar disponibilidade, criar reservas, alterar ou cancelar apenas as próprias reservas dentro do prazo permitido.\nAdministrador: cadastrar, editar, arquivar e bloquear salas; visualizar toda a agenda; criar, alterar ou cancelar qualquer reserva; registrar o motivo de alterações e cancelamentos.\nGestor administrativo: consultar agenda, ocupação e relatórios, sem permissão para cadastrar salas ou modificar reservas.",
+            "source": "user"
+          },
+          {
+            "question_id": "CQ-7C9D6A8992",
+            "decision": "As reservas devem ter duração mínima de 30 minutos e máxima de 4 horas, com início e término em intervalos de 30 minutos. Podem ser feitas com até 90 dias de antecedência e até 15 minutos antes do horário de início, desde que haja disponibilidade. Não haverá reservas recorrentes no MVP. O professor pode cancelar ou alterar a própria reserva até 30 minutos antes do início; depois desse prazo, somente a equipe administrativa pode alterar ou cancelar, registrando o motivo e mantendo o histórico.",
+            "source": "user"
+          },
+          {
+            "question_id": "CQ-5A43C2180D",
+            "decision": "agenda diária e semanal por sala;\nstatus das salas: disponível, reservada, em manutenção ou bloqueada;\ndetalhes de cada reserva: professor responsável, data, horário, turma/atividade e quantidade de alunos;\nconflitos, cancelamentos e alterações recentes;\ntaxa básica de ocupação por sala e período;\nsalas sem uso e salas em manutenção.",
+            "source": "user"
+          }
+        ],
+        "assumptions": [],
+        "open_questions": [],
+        "missing_information": [],
+        "question_candidates": [
+          {
+            "id": "CQ-AEC01E645C",
+            "question": "Quais perfis podem cadastrar salas, reservar, alterar ou cancelar reservas e bloquear salas?",
+            "reason": "Definir as permissoes e responsabilidades dos perfis do produto.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "Professor: consultar disponibilidade, criar reservas, alterar ou cancelar apenas as próprias reservas dentro do prazo permitido.\nAdministrador: cadastrar, editar, arquivar e bloquear salas; visualizar toda a agenda; criar, alterar ou cancelar qualquer reserva; registrar o motivo de alterações e cancelamentos.\nGestor administrativo: consultar agenda, ocupação e relatórios, sem permissão para cadastrar salas ou modificar reservas.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-7C9D6A8992",
+            "question": "Quais regras de reserva devem valer para duracao, antecedencia, recorrencia e cancelamento?",
+            "reason": "Definir as regras operacionais que evitam conflitos e reservas indevidas.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "As reservas devem ter duração mínima de 30 minutos e máxima de 4 horas, com início e término em intervalos de 30 minutos. Podem ser feitas com até 90 dias de antecedência e até 15 minutos antes do horário de início, desde que haja disponibilidade. Não haverá reservas recorrentes no MVP. O professor pode cancelar ou alterar a própria reserva até 30 minutos antes do início; depois desse prazo, somente a equipe administrativa pode alterar ou cancelar, registrando o motivo e mantendo o histórico.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-5A43C2180D",
+            "question": "Quais informacoes a equipe administrativa precisa acompanhar na agenda e nos relatorios do MVP?",
+            "reason": "Definir a visibilidade operacional necessaria para o primeiro lancamento.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "agenda diária e semanal por sala;\nstatus das salas: disponível, reservada, em manutenção ou bloqueada;\ndetalhes de cada reserva: professor responsável, data, horário, turma/atividade e quantidade de alunos;\nconflitos, cancelamentos e alterações recentes;\ntaxa básica de ocupação por sala e período;\nsalas sem uso e salas em manutenção.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          }
+        ],
+        "questions": [
+          {
+            "id": "CQ-AEC01E645C",
+            "question": "Quais perfis podem cadastrar salas, reservar, alterar ou cancelar reservas e bloquear salas?",
+            "reason": "Definir as permissoes e responsabilidades dos perfis do produto.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "Professor: consultar disponibilidade, criar reservas, alterar ou cancelar apenas as próprias reservas dentro do prazo permitido.\nAdministrador: cadastrar, editar, arquivar e bloquear salas; visualizar toda a agenda; criar, alterar ou cancelar qualquer reserva; registrar o motivo de alterações e cancelamentos.\nGestor administrativo: consultar agenda, ocupação e relatórios, sem permissão para cadastrar salas ou modificar reservas.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-7C9D6A8992",
+            "question": "Quais regras de reserva devem valer para duracao, antecedencia, recorrencia e cancelamento?",
+            "reason": "Definir as regras operacionais que evitam conflitos e reservas indevidas.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "As reservas devem ter duração mínima de 30 minutos e máxima de 4 horas, com início e término em intervalos de 30 minutos. Podem ser feitas com até 90 dias de antecedência e até 15 minutos antes do horário de início, desde que haja disponibilidade. Não haverá reservas recorrentes no MVP. O professor pode cancelar ou alterar a própria reserva até 30 minutos antes do início; depois desse prazo, somente a equipe administrativa pode alterar ou cancelar, registrando o motivo e mantendo o histórico.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-5A43C2180D",
+            "question": "Quais informacoes a equipe administrativa precisa acompanhar na agenda e nos relatorios do MVP?",
+            "reason": "Definir a visibilidade operacional necessaria para o primeiro lancamento.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "agenda diária e semanal por sala;\nstatus das salas: disponível, reservada, em manutenção ou bloqueada;\ndetalhes de cada reserva: professor responsável, data, horário, turma/atividade e quantidade de alunos;\nconflitos, cancelamentos e alterações recentes;\ntaxa básica de ocupação por sala e período;\nsalas sem uso e salas em manutenção.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          }
+        ],
+        "questions_asked": [
+          {
+            "id": "CQ-AEC01E645C",
+            "question": "Quais perfis podem cadastrar salas, reservar, alterar ou cancelar reservas e bloquear salas?",
+            "reason": "Definir as permissoes e responsabilidades dos perfis do produto.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "Professor: consultar disponibilidade, criar reservas, alterar ou cancelar apenas as próprias reservas dentro do prazo permitido.\nAdministrador: cadastrar, editar, arquivar e bloquear salas; visualizar toda a agenda; criar, alterar ou cancelar qualquer reserva; registrar o motivo de alterações e cancelamentos.\nGestor administrativo: consultar agenda, ocupação e relatórios, sem permissão para cadastrar salas ou modificar reservas.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-7C9D6A8992",
+            "question": "Quais regras de reserva devem valer para duracao, antecedencia, recorrencia e cancelamento?",
+            "reason": "Definir as regras operacionais que evitam conflitos e reservas indevidas.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "As reservas devem ter duração mínima de 30 minutos e máxima de 4 horas, com início e término em intervalos de 30 minutos. Podem ser feitas com até 90 dias de antecedência e até 15 minutos antes do horário de início, desde que haja disponibilidade. Não haverá reservas recorrentes no MVP. O professor pode cancelar ou alterar a própria reserva até 30 minutos antes do início; depois desse prazo, somente a equipe administrativa pode alterar ou cancelar, registrando o motivo e mantendo o histórico.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          },
+          {
+            "id": "CQ-5A43C2180D",
+            "question": "Quais informacoes a equipe administrativa precisa acompanhar na agenda e nos relatorios do MVP?",
+            "reason": "Definir a visibilidade operacional necessaria para o primeiro lancamento.",
+            "answer_hint": "Informe a decisao de produto que deve orientar o MVP.",
+            "impact": "HIGH",
+            "blocking": true,
+            "status": "answered",
+            "answer": "agenda diária e semanal por sala;\nstatus das salas: disponível, reservada, em manutenção ou bloqueada;\ndetalhes de cada reserva: professor responsável, data, horário, turma/atividade e quantidade de alunos;\nconflitos, cancelamentos e alterações recentes;\ntaxa básica de ocupação por sala e período;\nsalas sem uso e salas em manutenção.",
+            "finding_id": "RF-DEGRADED-ANALYSIS"
+          }
+        ],
+        "answers": {
+          "CQ-AEC01E645C": "Professor: consultar disponibilidade, criar reservas, alterar ou cancelar apenas as próprias reservas dentro do prazo permitido.\nAdministrador: cadastrar, editar, arquivar e bloquear salas; visualizar toda a agenda; criar, alterar ou cancelar qualquer reserva; registrar o motivo de alterações e cancelamentos.\nGestor administrativo: consultar agenda, ocupação e relatórios, sem permissão para cadastrar salas ou modificar reservas.",
+          "CQ-7C9D6A8992": "As reservas devem ter duração mínima de 30 minutos e máxima de 4 horas, com início e término em intervalos de 30 minutos. Podem ser feitas com até 90 dias de antecedência e até 15 minutos antes do horário de início, desde que haja disponibilidade. Não haverá reservas recorrentes no MVP. O professor pode cancelar ou alterar a própria reserva até 30 minutos antes do início; depois desse prazo, somente a equipe administrativa pode alterar ou cancelar, registrando o motivo e mantendo o histórico.",
+          "CQ-5A43C2180D": "agenda diária e semanal por sala;\nstatus das salas: disponível, reservada, em manutenção ou bloqueada;\ndetalhes de cada reserva: professor responsável, data, horário, turma/atividade e quantidade de alunos;\nconflitos, cancelamentos e alterações recentes;\ntaxa básica de ocupação por sala e período;\nsalas sem uso e salas em manutenção."
+        },
+        "evidence": [
+          {
+            "id": "briefing.1",
+            "text": "Sistema para agendamento e gestão de salas de aula",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.3",
+            "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.4",
+            "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.5",
+            "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.6",
+            "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.7",
+            "text": "reservar uma sala",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.8",
+            "text": "cancelar ou alterar reserva",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.9",
+            "text": "cadastrar e editar salas",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.10",
+            "text": "visualizar agenda e ocupação das salas",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.11",
+            "text": "bloquear salas indisponíveis para manutenção",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.12",
+            "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.13",
+            "text": "Somente usuários autenticados podem criar ou alterar reservas",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.14",
+            "text": "A reserva deve considerar capacidade e recursos da sala",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.15",
+            "text": "Salas em manutenção não podem ser reservadas",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.16",
+            "text": "Alterações e cancelamentos devem ficar registrados",
+            "type": "briefing"
+          },
+          {
+            "id": "briefing.17",
+            "text": "elicitationAnswers: {}",
+            "type": "briefing"
+          },
+          {
+            "id": "ANS-CQ-AEC01E645C",
+            "type": "user_answer",
+            "question_id": "CQ-AEC01E645C",
+            "text": "Professor: consultar disponibilidade, criar reservas, alterar ou cancelar apenas as próprias reservas dentro do prazo permitido.\nAdministrador: cadastrar, editar, arquivar e bloquear salas; visualizar toda a agenda; criar, alterar ou cancelar qualquer reserva; registrar o motivo de alterações e cancelamentos.\nGestor administrativo: consultar agenda, ocupação e relatórios, sem permissão para cadastrar salas ou modificar reservas."
+          },
+          {
+            "id": "ANS-CQ-7C9D6A8992",
+            "type": "user_answer",
+            "question_id": "CQ-7C9D6A8992",
+            "text": "As reservas devem ter duração mínima de 30 minutos e máxima de 4 horas, com início e término em intervalos de 30 minutos. Podem ser feitas com até 90 dias de antecedência e até 15 minutos antes do horário de início, desde que haja disponibilidade. Não haverá reservas recorrentes no MVP. O professor pode cancelar ou alterar a própria reserva até 30 minutos antes do início; depois desse prazo, somente a equipe administrativa pode alterar ou cancelar, registrando o motivo e mantendo o histórico."
+          },
+          {
+            "id": "ANS-CQ-5A43C2180D",
+            "type": "user_answer",
+            "question_id": "CQ-5A43C2180D",
+            "text": "agenda diária e semanal por sala;\nstatus das salas: disponível, reservada, em manutenção ou bloqueada;\ndetalhes de cada reserva: professor responsável, data, horário, turma/atividade e quantidade de alunos;\nconflitos, cancelamentos e alterações recentes;\ntaxa básica de ocupação por sala e período;\nsalas sem uso e salas em manutenção."
+          }
+        ],
+        "rounds": [
+          {
+            "number": 1,
+            "answered_question_ids": [
+              "CQ-5A43C2180D",
+              "CQ-7C9D6A8992",
+              "CQ-AEC01E645C"
+            ],
+            "answered_at": "2026-09-03T18:27:04.075765+00:00"
+          }
+        ],
+        "started_at": "2026-09-03T17:58:31.024917+00:00",
+        "updated_at": "2026-09-09T16:50:04.889571+00:00",
+        "confidence": 0.89,
+        "metrics": {
+          "questions_asked": 3,
+          "questions_answered": 3,
+          "blocking_questions": 0,
+          "rounds": 1,
+          "elicitation_time_seconds": 514293
+        },
+        "readiness": {
+          "ready": true,
+          "decision": "READY",
+          "blocking_questions": 0,
+          "blocking_question_details": []
+        }
+      },
+      "backlogContract": {
+        "version": 2,
+        "generatedAt": "2026-09-09T16:56:04.387Z",
+        "source": "project_manager",
+        "projectDnaSnapshot": {
+          "version": 1,
+          "generatedAt": "2026-09-09T16:49:07.209Z",
+          "project": {
+            "name": "Reserva de Salas",
+            "slugHint": "reserva-de-salas",
+            "templateKey": "education-platform-suite",
+            "productMode": "product-workspace",
+            "experienceStyle": "professional-balanced",
+            "primaryActor": "operador principal",
+            "domainLanguage": [
+              "reserva",
+              "salas",
+              "agendamento",
+              "gestao",
+              "aula",
+              "centralizar",
+              "reduzir",
+              "conflitos",
+              "horario",
+              "visibilidade",
+              "tempo",
+              "real"
+            ]
+          },
+          "positioning": {
+            "summary": "Sistema para agendamento e gestão de salas de aula",
+            "promise": "Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços."
+          },
+          "designSystem": {
+            "allowedScreenFamilies": [
+              "workspace",
+              "executive-cockpit",
+              "settings-console"
+            ],
+            "defaultScreenFamily": "workspace",
+            "navigationStyle": "sidebar-operational",
+            "visualTone": "professional"
+          },
+          "coherenceRules": {
+            "mustPreserve": [
+              "domainLanguage",
+              "productMode",
+              "experienceStyle"
+            ],
+            "forbiddenDrift": [
+              "generic-crud-without-domain",
+              "cross-domain-language-bleed"
+            ]
+          }
+        },
+        "overview": "Sistema para centralizar a reserva de salas de aula, reduzir conflitos de horário e proporcionar visibilidade em tempo real da ocupação. A primeira versão utilizável focará no cadastro de salas e no fluxo básico de consulta e reserva, permitindo que professores agendem espaços sem sobreposições, enquanto a equipe administrativa gerencia a base de recursos.",
+        "capabilities": [
+          {
+            "id": "cap_1",
+            "name": "Cadastrar salas: Inserir novas salas no sistema, definindo capacidade máxima e recursos disponíveis (projetor, quadros, etc.)."
+          },
+          {
+            "id": "cap_2",
+            "name": "Consultar disponibilidade: Verificar em tempo real quais salas estão livres em datas e horários específicos, respeitando capacidade e recursos."
+          },
+          {
+            "id": "cap_3",
+            "name": "Reservar sala: Garantir a reserva de uma sala para um professor ou atividade, impedindo sobreposições de horário."
+          },
+          {
+            "id": "cap_4",
+            "name": "Cancelar/Alterar reserva: Permitir o cancelamento ou mudança de horário/ data da reserva, com registro da alteração no histórico."
+          },
+          {
+            "id": "cap_5",
+            "name": "Bloquear salas: Marcar salas como indisponíveis para manutenção ou eventos especiais, impedindo reservas nesses períodos."
+          },
+          {
+            "id": "cap_6",
+            "name": "Visualizar agenda: Apresentar a ocupação das salas por dia/semana, permitindo visualizar quem reservou e quando."
+          }
+        ],
+        "epics": [
+          {
+            "id": "epic_1",
+            "name": "Epic 1: Cadastro Inicial de Salas - Permite que a equipe administrativa cadastre todas as salas existentes, definindo capacidade e recursos essenciais para o funcionamento do sistema."
+          },
+          {
+            "id": "epic_2",
+            "name": "Epic 2: Fluxo de Consulta e Reserva - Proporciona aos professores a capacidade de consultar disponibilidade e realizar reservas imediatas, sendo a espinha dorsal do produto."
+          },
+          {
+            "id": "epic_3",
+            "name": "Epic 3: Gestão de Conflitos e Cancelamentos - Implementa a lógica para impedir reservas sobrepostas e gerencia cancelamentos/alterações, garantindo a integridade dos dados."
+          },
+          {
+            "id": "epic_4",
+            "name": "Epic 4: Controle de Manutenção e Bloqueio - Permite bloquear salas temporariamente para manutenção ou uso exclusivo, evitando reservas indevidas nesses períodos."
+          },
+          {
+            "id": "epic_5",
+            "name": "Epic 5: Visão Agendada e Ocupação - Apresenta uma agenda visual (dia/semana) mostrando o status de ocupação de todas as salas, facilitando a leitura rápida da disponibilidade."
+          },
+          {
+            "id": "epic_6",
+            "name": "Epic 6: Relatórios e Auditoria - Gera relatórios de uso de salas, histórico de reservas e logs de alterações para governança e compliance."
+          }
+        ],
+        "releaseSlices": [
+          {
+            "id": "slice_1",
+            "name": "MVP",
+            "goal": "foco na espinha dorsal do produto, priorizando Cadastrar salas, Consultar disponibilidade, Reservar sala. O que fica para depois: automacoes sofisticadas, integracoes avancadas e analytics profundo."
+          },
+          {
+            "id": "slice_2",
+            "name": "Fase 2",
+            "goal": "foco em ampliar a operacao com Epic 1: Cadastro Inicial de Salas, Epic 2: Fluxo de Consulta e Reserva, Epic 3: Gestão de Conflitos e Cancelamentos. O que fica para depois: inteligencia avancada, ecossistema aberto e features premium."
+          },
+          {
+            "id": "slice_3",
+            "name": "Fase 3",
+            "goal": "foco em inteligencia, automacao avancada e expansao do produto. O que fica para depois: iniciativas experimentais e especializacoes de nicho."
+          }
+        ],
+        "stories": [
+          {
+            "id": "story_1",
+            "title": "Como administrador de sistema, eu quero cadastrar novas salas de aula com capacidade máxima e recursos essenciais, para que o sistema tenha a base de dados necessária para o agendamento.",
+            "description": "Permite o cadastro inicial da infraestrutura física. Regra de negocio: a capacidade maxima nao pode ser zero. Excecao: se a sala ja existir no banco de dados, o sistema deve retornar erro de duplicidade e nao sobrescrever os dados.",
+            "order": 1,
+            "actor": "administrador de sistema",
+            "goal": "cadastrar novas salas de aula com capacidade máxima e recursos essenciais",
+            "benefit": "que o sistema tenha a base de dados necessária para o agendamento",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_1"
+            ],
+            "status": "proposed",
+            "lane": "fundacao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            },
+            "reviewAnswers": [],
+            "pendingAgentReview": {
+              "proposalFingerprint": "b462031d2343b0e26806e524c1dee14bdfc172e8c7f0be348e88ced501f9fadb",
+              "answersFingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "assessment": {
+                "rubric_version": "1.0",
+                "score": 69,
+                "decision": "BLOCKED",
+                "dimensions": [
+                  {
+                    "id": "value_actor",
+                    "label": "Valor e ator claros",
+                    "weight": 10,
+                    "score": 10,
+                    "status": "pass",
+                    "evidence": []
+                  },
+                  {
+                    "id": "scope_atomicity",
+                    "label": "Escopo atomico",
+                    "weight": 15,
+                    "score": 15,
+                    "status": "pass",
+                    "evidence": [
+                      "A story descreve uma capacidade principal com efeitos obrigatorios relacionados."
+                    ]
+                  },
+                  {
+                    "id": "clarity",
+                    "label": "Clareza e ausencia de ambiguidade",
+                    "weight": 15,
+                    "score": 15,
+                    "status": "pass",
+                    "evidence": [
+                      "Ator, objetivo, beneficio e comportamento esperado estao descritos de forma objetiva."
+                    ]
+                  },
+                  {
+                    "id": "rules_flow",
+                    "label": "Regras e fluxo completos",
+                    "weight": 15,
+                    "score": 7,
+                    "status": "partial",
+                    "evidence": []
+                  },
+                  {
+                    "id": "acceptance_testability",
+                    "label": "Criterios de aceite verificaveis",
+                    "weight": 20,
+                    "score": 0,
+                    "status": "fail",
+                    "evidence": []
+                  },
+                  {
+                    "id": "traceability",
+                    "label": "Rastreabilidade",
+                    "weight": 10,
+                    "score": 10,
+                    "status": "pass",
+                    "evidence": []
+                  },
+                  {
+                    "id": "consistency",
+                    "label": "Consistencia com o contexto",
+                    "weight": 5,
+                    "score": 5,
+                    "status": "pass",
+                    "evidence": [
+                      "A story possui fonte rastreavel no contexto do backlog."
+                    ]
+                  },
+                  {
+                    "id": "quality_risks",
+                    "label": "Riscos e requisitos de qualidade",
+                    "weight": 5,
+                    "score": 2,
+                    "status": "partial",
+                    "evidence": []
+                  },
+                  {
+                    "id": "dependencies",
+                    "label": "Viabilidade e dependencias",
+                    "weight": 5,
+                    "score": 5,
+                    "status": "pass",
+                    "evidence": [
+                      "As dependencias necessarias estao identificadas pela rastreabilidade da story."
+                    ]
+                  }
+                ],
+                "gates": [
+                  {
+                    "code": "blocking_questions_open",
+                    "message": "Existem perguntas bloqueantes sem decisao.",
+                    "blocking": true
+                  },
+                  {
+                    "code": "acceptance_criteria_missing",
+                    "message": "A story nao possui criterios de aceite.",
+                    "blocking": true
+                  }
+                ],
+                "strengths": [],
+                "gaps": [
+                  "Existem perguntas bloqueantes sem decisao.",
+                  "A story nao possui criterios de aceite.",
+                  "Regras e fluxo completos: a revisao nao apresentou evidencia contextual suficiente para esta story.",
+                  "Criterios de aceite verificaveis: a revisao nao apresentou evidencia contextual suficiente para esta story.",
+                  "Riscos e requisitos de qualidade: a revisao nao apresentou evidencia contextual suficiente para esta story."
+                ],
+                "risks": []
+              },
+              "review": {
+                "proposed_story": {
+                  "title": "Como administrador de sistema, eu quero cadastrar novas salas de aula com capacidade máxima e recursos essenciais, para que o sistema tenha a base de dados necessária para o agendamento.",
+                  "description": "Permite o cadastro inicial da infraestrutura física. Regra de negocio: a capacidade maxima nao pode ser zero. Excecao: se a sala ja existir no banco de dados, o sistema deve retornar erro de duplicidade e nao sobrescrever os dados.",
+                  "actor": "administrador de sistema",
+                  "benefit": "que o sistema tenha a base de dados necessária para o agendamento",
+                  "acceptance_criteria": []
+                },
+                "questions": [
+                  {
+                    "id": "RQ-ACCEPTANCE_CRITERIA_MISSING",
+                    "question": "Quais cenarios de sucesso e de excecao comprovam que esta story foi entregue?",
+                    "why": "A story nao possui criterios de aceite.",
+                    "blocking": true
+                  }
+                ],
+                "assessment": {
+                  "rubric_version": "1.0",
+                  "score": 69,
+                  "decision": "BLOCKED",
+                  "dimensions": [
+                    {
+                      "id": "value_actor",
+                      "label": "Valor e ator claros",
+                      "weight": 10,
+                      "score": 10,
+                      "status": "pass",
+                      "evidence": []
+                    },
+                    {
+                      "id": "scope_atomicity",
+                      "label": "Escopo atomico",
+                      "weight": 15,
+                      "score": 15,
+                      "status": "pass",
+                      "evidence": [
+                        "A story descreve uma capacidade principal com efeitos obrigatorios relacionados."
+                      ]
+                    },
+                    {
+                      "id": "clarity",
+                      "label": "Clareza e ausencia de ambiguidade",
+                      "weight": 15,
+                      "score": 15,
+                      "status": "pass",
+                      "evidence": [
+                        "Ator, objetivo, beneficio e comportamento esperado estao descritos de forma objetiva."
+                      ]
+                    },
+                    {
+                      "id": "rules_flow",
+                      "label": "Regras e fluxo completos",
+                      "weight": 15,
+                      "score": 7,
+                      "status": "partial",
+                      "evidence": []
+                    },
+                    {
+                      "id": "acceptance_testability",
+                      "label": "Criterios de aceite verificaveis",
+                      "weight": 20,
+                      "score": 0,
+                      "status": "fail",
+                      "evidence": []
+                    },
+                    {
+                      "id": "traceability",
+                      "label": "Rastreabilidade",
+                      "weight": 10,
+                      "score": 10,
+                      "status": "pass",
+                      "evidence": []
+                    },
+                    {
+                      "id": "consistency",
+                      "label": "Consistencia com o contexto",
+                      "weight": 5,
+                      "score": 5,
+                      "status": "pass",
+                      "evidence": [
+                        "A story possui fonte rastreavel no contexto do backlog."
+                      ]
+                    },
+                    {
+                      "id": "quality_risks",
+                      "label": "Riscos e requisitos de qualidade",
+                      "weight": 5,
+                      "score": 2,
+                      "status": "partial",
+                      "evidence": []
+                    },
+                    {
+                      "id": "dependencies",
+                      "label": "Viabilidade e dependencias",
+                      "weight": 5,
+                      "score": 5,
+                      "status": "pass",
+                      "evidence": [
+                        "As dependencias necessarias estao identificadas pela rastreabilidade da story."
+                      ]
+                    }
+                  ],
+                  "gates": [
+                    {
+                      "code": "blocking_questions_open",
+                      "message": "Existem perguntas bloqueantes sem decisao.",
+                      "blocking": true
+                    },
+                    {
+                      "code": "acceptance_criteria_missing",
+                      "message": "A story nao possui criterios de aceite.",
+                      "blocking": true
+                    }
+                  ],
+                  "strengths": [],
+                  "gaps": [
+                    "Existem perguntas bloqueantes sem decisao.",
+                    "A story nao possui criterios de aceite.",
+                    "Regras e fluxo completos: a revisao nao apresentou evidencia contextual suficiente para esta story.",
+                    "Criterios de aceite verificaveis: a revisao nao apresentou evidencia contextual suficiente para esta story.",
+                    "Riscos e requisitos de qualidade: a revisao nao apresentou evidencia contextual suficiente para esta story."
+                  ],
+                  "risks": []
+                },
+                "generation_degraded": true
+              },
+              "generatedAt": "2026-09-09T17:42:20.193Z"
+            }
+          },
+          {
+            "id": "story_2",
+            "title": "Como administrador de sistema, eu quero editar informacoes de salas ja cadastradas (capacidade ou recursos), para que o sistema reflita mudancas operacionais reais.",
+            "description": "Cenario de atualizacao quando ha reforma ou troca de equipamentos. Regra: so usuarios com perfil administrativo podem alterar campos criticos como capacidade. Excecao: alteracoes nao podem reduzir a capacidade abaixo do numero atual de reservas ativas.",
+            "order": 2,
+            "actor": "administrador de sistema",
+            "goal": "editar informacoes de salas ja cadastradas (capacidade ou recursos)",
+            "benefit": "que o sistema reflita mudancas operacionais reais",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_1"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_3",
+            "title": "Como professor, eu quero visualizar a lista de salas cadastradas com seus respectivos recursos e capacidade, para que eu possa escolher o ambiente mais adequado para minha aula.",
+            "description": "Facilita a decisao do usuario na hora da reserva. Regra: a lista deve ser filtrada por recursos (ex: projetor) se o professor marcar esse filtro. Excecao: salas bloqueadas para manutencao devem aparecer com status visual distinto (ex: cor cinza).",
+            "order": 3,
+            "actor": "professor",
+            "goal": "visualizar a lista de salas cadastradas com seus respectivos recursos e capacidade",
+            "benefit": "que eu possa escolher o ambiente mais adequado para minha aula",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_1"
+            ],
+            "status": "proposed",
+            "lane": "gestao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_4",
+            "title": "Como administrador de sistema, eu quero excluir uma sala do sistema apenas se ela nao possuir reservas ativas ou futuras, para manter a integridade dos dados de agendamento.",
+            "description": "Evita perda acidental de historico de reservas. Regra: o botao de exclusao deve ficar disabled (inativo) se houver reservas vinculadas a essa sala. Excecao: exclusao forcada apenas em casos de erro de cadastro duplicado, com log de auditoria.",
+            "order": 4,
+            "actor": "administrador de sistema",
+            "goal": "excluir uma sala do sistema apenas se ela nao possuir reservas ativas ou futuras",
+            "benefit": "manter a integridade dos dados de agendamento",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_1"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_5",
+            "title": "Como professor, eu quero consultar a disponibilidade de salas por data, horário e capacidade, para que eu possa reservar um espaço adequado para minha aula.",
+            "description": "Descrição: O sistema deve exibir apenas salas com capacidade suficiente e recursos compatíveis (ex: projetor), impedindo reservas em horários já ocupados ou em manutenção.",
+            "order": 5,
+            "actor": "professor",
+            "goal": "consultar a disponibilidade de salas por data, horário e capacidade",
+            "benefit": "que eu possa reservar um espaço adequado para minha aula",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_2"
+            ],
+            "status": "proposed",
+            "lane": "gestao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_6",
+            "title": "Como professor, eu quero reservar uma sala imediatamente após confirmar sua disponibilidade, para garantir o espaço para minha atividade.",
+            "description": "Descrição: A reserva deve ser bloqueada se houver sobreposição com outra reserva existente e deve exigir autenticação do usuário para validar a operação.",
+            "order": 6,
+            "actor": "professor",
+            "goal": "reservar uma sala imediatamente após confirmar sua disponibilidade",
+            "benefit": "garantir o espaço para minha atividade",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_2"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_7",
+            "title": "Como professor, eu quero receber feedback visual sobre o sucesso ou falha da reserva, para saber se o agendamento foi concluído ou se preciso escolher outro horário.",
+            "description": "Descrição: O sistema deve exibir mensagens de erro específicas quando a capacidade for insuficiente ou quando o horário solicitado já estiver indisponível.",
+            "order": 7,
+            "actor": "professor",
+            "goal": "receber feedback visual sobre o sucesso ou falha da reserva",
+            "benefit": "saber se o agendamento foi concluído ou se preciso escolher outro horário",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_2"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_8",
+            "title": "Como professor, eu quero visualizar minha reserva confirmada na agenda pessoal, para ter certeza de que o espaço está garantido.",
+            "description": "Descrição: A história deve garantir que a reserva criada apareça imediatamente na visualização da agenda do professor com data, horário e sala identificados.",
+            "order": 8,
+            "actor": "professor",
+            "goal": "visualizar minha reserva confirmada na agenda pessoal",
+            "benefit": "ter certeza de que o espaço está garantido",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_2"
+            ],
+            "status": "proposed",
+            "lane": "gestao",
+            "priority": "high",
+            "release": "MVP",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_9",
+            "title": "Como professor, eu quero cancelar uma reserva confirmada, para liberar a sala para outros usos.",
+            "description": "Descrição: Permite ao professor remover seu agendamento. Regra: Cancelamento só é permitido até 2 horas antes do início da aula. O sistema registra o motivo do cancelamento no histórico para auditoria.",
+            "order": 9,
+            "actor": "professor",
+            "goal": "cancelar uma reserva confirmada",
+            "benefit": "liberar a sala para outros usos",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_3"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_10",
+            "title": "Como professor, eu quero alterar o horário da minha reserva, para adequar a aula a uma mudança de agenda.",
+            "description": "Descrição: Move a reserva para um novo horário/data. Regra: A nova data/horário deve estar livre e respeitar a capacidade da sala. Alterações são bloqueadas se houver sobreposição com outra reserva confirmada.",
+            "order": 10,
+            "actor": "professor",
+            "goal": "alterar o horário da minha reserva",
+            "benefit": "adequar a aula a uma mudança de agenda",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_3"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_11",
+            "title": "Como administrador, eu quero bloquear uma sala para manutenção, para impedir reservas durante o período de serviço.",
+            "description": "Descrição: Marca a sala como indisponível em um intervalo de datas específicas. Regra: O sistema impede qualquer nova reserva para o período bloqueado e exibe um aviso visual de \"Manutenção\" na agenda.",
+            "order": 11,
+            "actor": "administrador",
+            "goal": "bloquear uma sala para manutenção",
+            "benefit": "impedir reservas durante o período de serviço",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_3"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_12",
+            "title": "Como professor, eu quero tentar reservar uma sala que ja esteja ocupada no mesmo horario, para verificar se o sistema bloqueia a sobreposicao.",
+            "description": "O sistema deve impedir o salvamento da reserva quando houver conflito de horario com outra reserva existente, retornando erro de conflitos e mantendo a integridade do agendamento.",
+            "order": 12,
+            "actor": "professor",
+            "goal": "tentar reservar uma sala que ja esteja ocupada no mesmo horario",
+            "benefit": "verificar se o sistema bloqueia a sobreposicao",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_3"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_13",
+            "title": "Como administrador, eu quero alterar o status de uma reserva para 'cancelada' e registrar o motivo do cancelamento no historico, para liberar a sala e manter o rastro da operacao.",
+            "description": "A alteracao de status deve atualizar automaticamente a disponibilidade da sala e criar um log de auditoria com usuario, data do cancelamento e motivo informado.",
+            "order": 13,
+            "actor": "administrador",
+            "goal": "alterar o status de uma reserva para 'cancelada' e registrar o motivo do cancelamento no historico",
+            "benefit": "liberar a sala e manter o rastro da operacao",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_4"
+            ],
+            "status": "proposed",
+            "lane": "fundacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_14",
+            "title": "Como professor, eu quero receber um feedback visual imediato quando tentar reservar uma sala em manutencao, para saber que o espaco nao esta disponivel.",
+            "description": null,
+            "order": 14,
+            "actor": "professor",
+            "goal": "receber um feedback visual imediato quando tentar reservar uma sala em manutencao",
+            "benefit": "saber que o espaco nao esta disponivel",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_4"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_15",
+            "title": "Como administrador, eu quero bloquear uma sala para manutencao programada, definindo um periodo de inicio e fim, para impedir novas reservas nesse intervalo.",
+            "description": null,
+            "order": 15,
+            "actor": "administrador",
+            "goal": "bloquear uma sala para manutencao programada, definindo um periodo de inicio e fim",
+            "benefit": "impedir novas reservas nesse intervalo",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_4"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_16",
+            "title": "Como professor, eu quero visualizar quais salas estao bloqueadas ou em manutencao na agenda semanal, para evitar tentar agendar espaços indisponiveis.",
+            "description": null,
+            "order": 16,
+            "actor": "professor",
+            "goal": "visualizar quais salas estao bloqueadas ou em manutencao na agenda semanal",
+            "benefit": "evitar tentar agendar espaços indisponiveis",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_4"
+            ],
+            "status": "proposed",
+            "lane": "gestao",
+            "priority": "medium",
+            "release": "Fase 2",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_17",
+            "title": "Como professor, eu quero tentar reservar uma sala que já está ocupada no mesmo horário, para verificar se o sistema bloqueia a sobreposição.",
+            "description": null,
+            "order": 17,
+            "actor": "professor",
+            "goal": "tentar reservar uma sala que já está ocupada no mesmo horário",
+            "benefit": "verificar se o sistema bloqueia a sobreposição",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_5"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_18",
+            "title": "Como professor, eu quero visualizar a agenda semanal completa das salas, para que eu possa planejar minhas aulas com antecedência.",
+            "description": "DESC: Exibe a grade horária dia a dia mostrando ocupação, reservas confirmadas e salas bloqueadas para manutenção em um único view.",
+            "order": 18,
+            "actor": "professor",
+            "goal": "visualizar a agenda semanal completa das salas",
+            "benefit": "que eu possa planejar minhas aulas com antecedência",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_5"
+            ],
+            "status": "proposed",
+            "lane": "fundacao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_19",
+            "title": "Como professor, eu quero filtrar a agenda por capacidade da sala, para que eu encontre espaços adequados ao tamanho da minha turma.",
+            "description": "DESC: Filtra a visualização mostrando apenas salas que atendem ao número mínimo de alunos informado, ocultando as demais.",
+            "order": 19,
+            "actor": "professor",
+            "goal": "filtrar a agenda por capacidade da sala",
+            "benefit": "que eu encontre espaços adequados ao tamanho da minha turma",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_5"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_20",
+            "title": "Como administrador, eu quero que o status 'em manutenção' seja exibido visualmente na agenda, para que usuários saibam imediatamente que a sala não está disponível.",
+            "description": "DESC: Aplica um ícone ou cor distinta nas células da grade para indicar bloqueio temporário, impedendo a seleção de horários bloqueados.",
+            "order": 20,
+            "actor": "administrador",
+            "goal": "que o status 'em manutenção' seja exibido visualmente na agenda",
+            "benefit": "que usuários saibam imediatamente que a sala não está disponível",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_5"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_21",
+            "title": "Como professor, eu quero ver o nome do responsável pela reserva ao passar o mouse sobre o horário na agenda, para conferir quem está usando o espaço.",
+            "description": "DESC: Tooltip na célula da reserva exibe o nome do professor e o tipo de atividade, permitindo identificação rápida sem editar o agendamento.",
+            "order": 21,
+            "actor": "professor",
+            "goal": "ver o nome do responsável pela reserva ao passar o mouse sobre o horário na agenda",
+            "benefit": "conferir quem está usando o espaço",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_6"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_22",
+            "title": "Como administrador, eu quero gerar um relatório de uso de salas por período, para analisar a ocupação dos espaços e identificar padrões de demanda.",
+            "description": "Descrição: Geração de relatório consolidado filtrável por data inicial, data final e tipo de usuário. Deve exibir total de reservas, taxa de ocupação por sala e horários de maior demanda. Campo obrigatório: período de análise.",
+            "order": 22,
+            "actor": "administrador",
+            "goal": "gerar um relatório de uso de salas por período",
+            "benefit": "analisar a ocupação dos espaços e identificar padrões de demanda",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_6"
+            ],
+            "status": "proposed",
+            "lane": "gestao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_23",
+            "title": "Como auditor, eu quero acessar o log de alterações de reservas, para verificar quem modificou ou cancelou um agendamento e quando isso aconteceu.",
+            "description": "Descrição: Registro automático de todas as alterações de status (confirmed, cancelled, modified) com timestamp e usuário responsável. Exceção: alterações feitas por sistema devem indicar \"automated system\" como responsável.",
+            "order": 23,
+            "actor": "auditor",
+            "goal": "acessar o log de alterações de reservas",
+            "benefit": "verificar quem modificou ou cancelou um agendamento e quando isso aconteceu",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_6"
+            ],
+            "status": "proposed",
+            "lane": "operacao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          },
+          {
+            "id": "story_24",
+            "title": "Como professor, eu quero visualizar o histórico completo das minhas reservas passadas e futuras, para consultar detalhes de aulas anteriores ou confirmar agendamentos vindouros.",
+            "description": "Descrição: Filtro por usuário na lista de reservas. Deve exibir data, horário, sala e status. Regra de negócio: histórico disponível dos últimos 12 meses, excluindo rascunhos não finalizados.",
+            "order": 24,
+            "actor": "professor",
+            "goal": "visualizar o histórico completo das minhas reservas passadas e futuras",
+            "benefit": "consultar detalhes de aulas anteriores ou confirmar agendamentos vindouros",
+            "sourceIds": [
+              "briefing.1"
+            ],
+            "capabilityIds": [
+              "cap_6"
+            ],
+            "status": "proposed",
+            "lane": "gestao",
+            "priority": "low",
+            "release": "Fase 3",
+            "reviewTags": [
+              "REVIEW_REQUIRED"
+            ],
+            "openQuestions": [],
+            "refinementContext": {
+              "inputs": [],
+              "outputs": [],
+              "confirmed_rules": [],
+              "constraints": [],
+              "dependencies": [],
+              "open_questions": [],
+              "acceptance_hints": [],
+              "acceptance_criteria": []
+            }
+          }
+        ],
+        "evidence": {
+          "facts": [
+            {
+              "id": "briefing.1",
+              "text": "Sistema para agendamento e gestão de salas de aula",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.3",
+              "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.4",
+              "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.5",
+              "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.6",
+              "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.7",
+              "text": "reservar uma sala",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.8",
+              "text": "cancelar ou alterar reserva",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.9",
+              "text": "cadastrar e editar salas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.10",
+              "text": "visualizar agenda e ocupação das salas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.11",
+              "text": "bloquear salas indisponíveis para manutenção",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.12",
+              "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.13",
+              "text": "Somente usuários autenticados podem criar ou alterar reservas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.14",
+              "text": "A reserva deve considerar capacidade e recursos da sala",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.15",
+              "text": "Salas em manutenção não podem ser reservadas",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.16",
+              "text": "Alterações e cancelamentos devem ficar registrados",
+              "type": "briefing"
+            },
+            {
+              "id": "briefing.17",
+              "text": "elicitationAnswers: {}",
+              "type": "briefing"
+            }
+          ]
+        },
+        "requirementsContract": {
+          "version": 1,
+          "evidence": {
+            "facts": [
+              {
+                "id": "briefing.1",
+                "text": "Sistema para agendamento e gestão de salas de aula",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.3",
+                "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.4",
+                "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.5",
+                "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.6",
+                "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.7",
+                "text": "reservar uma sala",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.8",
+                "text": "cancelar ou alterar reserva",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.9",
+                "text": "cadastrar e editar salas",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.10",
+                "text": "visualizar agenda e ocupação das salas",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.11",
+                "text": "bloquear salas indisponíveis para manutenção",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.12",
+                "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.13",
+                "text": "Somente usuários autenticados podem criar ou alterar reservas",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.14",
+                "text": "A reserva deve considerar capacidade e recursos da sala",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.15",
+                "text": "Salas em manutenção não podem ser reservadas",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.16",
+                "text": "Alterações e cancelamentos devem ficar registrados",
+                "type": "briefing"
+              },
+              {
+                "id": "briefing.17",
+                "text": "elicitationAnswers: {}",
+                "type": "briefing"
+              }
+            ]
+          },
+          "requirements": [
+            {
+              "id": "REQ-1",
+              "text": "Sistema para agendamento e gestão de salas de aula",
+              "source_ids": [
+                "briefing.1"
+              ]
+            },
+            {
+              "id": "REQ-3",
+              "text": "objective: Centralizar a reserva de salas, reduzir conflitos de horário e dar visibilidade em tempo real sobre a ocupação dos espaços",
+              "source_ids": [
+                "briefing.3"
+              ]
+            },
+            {
+              "id": "REQ-4",
+              "text": "audience: Professores consultam e reservam salas para aulas e atividades",
+              "source_ids": [
+                "briefing.4"
+              ]
+            },
+            {
+              "id": "REQ-5",
+              "text": "Equipe administrativa cadastra salas, acompanha a ocupação e administra reservas quando necessário",
+              "source_ids": [
+                "briefing.5"
+              ]
+            },
+            {
+              "id": "REQ-6",
+              "text": "mainFlows: Consultar disponibilidade por data, horário e capacidade",
+              "source_ids": [
+                "briefing.6"
+              ]
+            },
+            {
+              "id": "REQ-7",
+              "text": "reservar uma sala",
+              "source_ids": [
+                "briefing.7"
+              ]
+            },
+            {
+              "id": "REQ-8",
+              "text": "cancelar ou alterar reserva",
+              "source_ids": [
+                "briefing.8"
+              ]
+            },
+            {
+              "id": "REQ-9",
+              "text": "cadastrar e editar salas",
+              "source_ids": [
+                "briefing.9"
+              ]
+            },
+            {
+              "id": "REQ-10",
+              "text": "visualizar agenda e ocupação das salas",
+              "source_ids": [
+                "briefing.10"
+              ]
+            },
+            {
+              "id": "REQ-11",
+              "text": "bloquear salas indisponíveis para manutenção",
+              "source_ids": [
+                "briefing.11"
+              ]
+            },
+            {
+              "id": "REQ-12",
+              "text": "constraints: Uma sala não pode ter duas reservas sobrepostas",
+              "source_ids": [
+                "briefing.12"
+              ]
+            },
+            {
+              "id": "REQ-13",
+              "text": "Somente usuários autenticados podem criar ou alterar reservas",
+              "source_ids": [
+                "briefing.13"
+              ]
+            },
+            {
+              "id": "REQ-14",
+              "text": "A reserva deve considerar capacidade e recursos da sala",
+              "source_ids": [
+                "briefing.14"
+              ]
+            },
+            {
+              "id": "REQ-15",
+              "text": "Salas em manutenção não podem ser reservadas",
+              "source_ids": [
+                "briefing.15"
+              ]
+            },
+            {
+              "id": "REQ-16",
+              "text": "Alterações e cancelamentos devem ficar registrados",
+              "source_ids": [
+                "briefing.16"
+              ]
+            },
+            {
+              "id": "REQ-17",
+              "text": "elicitationAnswers: {}",
+              "source_ids": [
+                "briefing.17"
+              ]
+            }
+          ],
+          "assumptions": [],
+          "questions": [],
+          "blocking_questions": [],
+          "findings": [],
+          "analysis_status": "degraded",
+          "semantic_context": {},
+          "decision": "READY"
+        },
+        "qualityReview": null,
+        "coverage": [
+          {
+            "source_id": "briefing.1",
+            "story_ids": [
+              "story_1",
+              "story_2",
+              "story_3",
+              "story_4",
+              "story_5",
+              "story_6",
+              "story_7",
+              "story_8",
+              "story_9",
+              "story_10",
+              "story_11",
+              "story_12",
+              "story_13",
+              "story_14",
+              "story_15",
+              "story_16",
+              "story_17",
+              "story_18",
+              "story_19",
+              "story_20",
+              "story_21",
+              "story_22",
+              "story_23",
+              "story_24"
+            ]
+          }
+        ]
+      }
+    },
+    "boardConfig": null,
+    "agentsConfig": null,
+    "automationConfig": null,
+    "status": "active",
+    "createdBy": "7",
+    "createdAt": "2026-09-02T17:15:03.000Z",
+    "updatedAt": "2026-09-09T17:42:20.000Z",
+    "tasks": [],
+    "agentRuns": [],
+    "generatedApps": []
+  }
+}

@@ -1,313 +1,53 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import {
-  AlertTriangle,
-  ArrowRight,
-  CheckCircle2,
-  FileCheck2,
-  ListChecks,
-  ShieldAlert,
-  Sparkles,
-  Target,
-  TestTube2,
-} from 'lucide-react';
+import { AlertCircle, ArrowRight, ChevronDown, FileText, GitCompareArrows, Lightbulb, Loader2, MessageCircleQuestion, Paperclip, ShieldAlert, Sparkles, Target, TestTube2 } from 'lucide-react';
 import AppShell from '../components/AppShell';
-import { analyzeAlignment, getApiErrorMessage } from '../services/api';
-
-const fade = (delay = 0) => ({
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.3, delay, ease: 'easeOut' },
-});
-
-const EXAMPLE_PROMPTS = [
-  'Como gerente de operações, preciso aprovar reembolsos acima de R$ 500 com dupla validação para reduzir fraude.',
-  'Quero permitir que clientes acompanhem o status do pedido por notificações e timeline no portal.',
-  'Precisamos de um fluxo para cadastrar fornecedores com documentos obrigatórios, aprovação e bloqueio por pendências.',
-];
+import { analyzeAlignment, getApiErrorMessage, submitAlignmentClarifications } from '../services/api';
 
 const SCORE_META = [
-  { key: 'overall', label: 'Score geral', icon: Sparkles, hint: 'Visão consolidada da entrada' },
-  { key: 'clarity', label: 'Clareza', icon: Target, hint: 'Objetivo e linguagem objetiva' },
-  { key: 'completeness', label: 'Completude', icon: FileCheck2, hint: 'Contexto, regra e resultado' },
-  { key: 'testability', label: 'Testabilidade', icon: TestTube2, hint: 'Base para QA e aceite' },
-  { key: 'ambiguity', label: 'Ambiguidade', icon: ShieldAlert, hint: 'Risco semântico; menor é melhor' },
+  { key: 'clarity', label: 'Clareza', description: 'Objetivo, ator e linguagem objetivos.' },
+  { key: 'completeness', label: 'Completude', description: 'Contexto, regras e limites suficientes.' },
+  { key: 'testability', label: 'Testabilidade', description: 'Resultado verificável por aceite e QA.' },
+  { key: 'ambiguity', label: 'Ambiguidade', description: 'Risco de interpretações. Menor é melhor.', inverse: true },
+  { key: 'overall', label: 'Geral', description: 'Prontidão consolidada do requisito.' },
 ];
+const SEVERITIES = [
+  { key: 'critical', label: 'Críticos', dot: 'bg-rose-600', box: 'border-rose-200 bg-rose-50' },
+  { key: 'high', label: 'Altos', dot: 'bg-orange-500', box: 'border-orange-200 bg-orange-50' },
+  { key: 'medium', label: 'Médios', dot: 'bg-amber-400', box: 'border-amber-200 bg-amber-50' },
+  { key: 'low', label: 'Informativos', dot: 'bg-blue-500', box: 'border-blue-200 bg-blue-50' },
+];
+const fade = { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.32 } };
+const asText = (item) => typeof item === 'string' ? item : item?.statement || item?.message || item?.description || '';
 
-function ScoreCard({ label, value, hint, icon: Icon, inverse = false }) {
-  const tone = inverse
-    ? value >= 60
-      ? 'border-rose-200 bg-rose-50 text-rose-700'
-      : value >= 30
-        ? 'border-amber-200 bg-amber-50 text-amber-700'
-        : 'border-emerald-200 bg-emerald-50 text-emerald-700'
-    : value >= 75
-      ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
-      : value >= 55
-        ? 'border-amber-200 bg-amber-50 text-amber-700'
-        : 'border-rose-200 bg-rose-50 text-rose-700';
-
-  return (
-    <div className={`rounded-2xl border px-4 py-4 ${tone}`}>
-      <div className="flex items-center justify-between">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/70">
-          <Icon className="h-4.5 w-4.5" strokeWidth={2} />
-        </div>
-        <span className="text-2xl font-bold">{value}</span>
-      </div>
-      <p className="mt-4 text-sm font-semibold">{label}</p>
-      <p className="mt-1 text-xs leading-5 opacity-90">{hint}</p>
-    </div>
-  );
+function ScoreCard({ score, meta, dimension }) {
+  const good = meta.inverse ? score < 30 : score >= 75;
+  const moderate = meta.inverse ? score < 60 : score >= 55;
+  const tone = good ? 'border-emerald-200 bg-emerald-50' : moderate ? 'border-amber-200 bg-amber-50' : 'border-rose-200 bg-rose-50';
+  const explanation = dimension?.deductions?.length ? dimension.deductions.map((item) => item.message).join(' ') : dimension?.positive_evidence?.map((item) => item.message).join(' ') || meta.description;
+  return <article className={`rounded-2xl border p-4 ${tone}`}><div className="flex items-start justify-between gap-3"><div><p className="text-sm font-bold text-slate-900">{meta.label}</p><p className="mt-1 text-xs leading-5 text-slate-600">{meta.description}</p></div><span className="text-2xl font-bold text-slate-900">{score}</span></div><p className="mt-4 border-t border-slate-900/10 pt-3 text-xs leading-5 text-slate-700">{explanation}</p></article>;
 }
-
-function OutputBlock({ title, icon: Icon, items, emptyText }) {
-  return (
-    <section className="rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#102a72]/10 text-[#102a72]">
-          <Icon className="h-4.5 w-4.5" strokeWidth={2} />
-        </div>
-        <h2 className="text-base font-bold text-slate-900">{title}</h2>
-      </div>
-      <div className="space-y-3 p-5">
-        {items?.length ? (
-          items.map((item, index) => (
-            <div key={`${title}-${index}`} className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700">
-              {typeof item === 'string' ? item : item.message}
-              {typeof item === 'object' && item.recommendation ? (
-                <p className="mt-2 text-xs text-slate-500">Próxima ação: {item.recommendation}</p>
-              ) : null}
-            </div>
-          ))
-        ) : (
-          <div className="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-4 py-8 text-sm text-slate-500">
-            {emptyText}
-          </div>
-        )}
-      </div>
-    </section>
-  );
+function RequirementSection({ title, icon: Icon, items, emptyText, format }) {
+  return <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="flex items-center gap-2.5"><span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#102a72]/10 text-[#102a72]"><Icon className="h-4 w-4" /></span><h3 className="font-bold text-slate-900">{title}</h3></div>{items?.length ? <div className="mt-4 space-y-3">{items.map((item, index) => <div key={`${title}-${index}`} className="rounded-xl bg-slate-50 px-3.5 py-3 text-sm leading-6 text-slate-700">{format ? format(item) : asText(item)}</div>)}</div> : <p className="mt-4 rounded-xl border border-dashed border-slate-200 bg-slate-50 px-3.5 py-4 text-sm text-slate-500">{emptyText}</p>}</section>;
 }
 
 export default function HomePage() {
-  const navigate = useNavigate();
-  const resultRef = useRef(null);
-  const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [result, setResult] = useState(null);
-
-  const scoreCards = useMemo(() => {
-    if (!result?.clarity_score) return [];
-    return SCORE_META.map((item) => ({
-      ...item,
-      value: result.clarity_score[item.key] ?? 0,
-      inverse: item.key === 'ambiguity',
-    }));
-  }, [result]);
-
-  useEffect(() => {
-    if (result && resultRef.current) {
-      resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [result]);
-
-  async function handleAnalyze(exampleText) {
-    const nextInput = typeof exampleText === 'string' ? exampleText : input;
-
-    if (!nextInput.trim()) {
-      setError('Descreva uma ideia, feature ou necessidade antes de processar.');
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError('');
-      if (typeof exampleText === 'string') {
-        setInput(exampleText);
-      }
-      const analysis = await analyzeAlignment(nextInput);
-      setResult(analysis);
-    } catch (analysisError) {
-      setError(getApiErrorMessage(analysisError, 'Não foi possível analisar a clareza da solicitação.'));
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return (
-    <AppShell
-      eyebrow="Alinhamento antes do desenvolvimento"
-      title="Aligna"
-      description="Transforme uma ideia inicial em user story, critérios de aceite, regras de negócio, cenários de teste e alertas de ambiguidade."
-      actions={
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => setInput(EXAMPLE_PROMPTS[0])}
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50"
-          >
-            <Sparkles className="h-4 w-4" strokeWidth={2.2} />
-            Usar exemplo
-          </button>
-          <button
-            onClick={() => navigate('/projects')}
-            className="inline-flex items-center gap-2 rounded-xl bg-[#102a72] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#0c205a] hover:shadow-md"
-          >
-            <ArrowRight className="h-4 w-4" strokeWidth={2.5} />
-            Abrir projetos
-          </button>
-        </div>
-      }
-    >
-      <div className="space-y-8">
-        <motion.section {...fade(0.05)} className="rounded-[28px] border border-slate-200 bg-white shadow-sm">
-          <div className="border-b border-slate-200 px-6 py-5">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#102a72]">Fluxo principal</p>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-900">Descreva a necessidade e valide antes de desenvolver</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">
-              O Aligna ajuda times a eliminar ambiguidades, reduzir retrabalho e chegar ao desenvolvimento com requisitos muito mais claros.
-            </p>
-          </div>
-          <div className="grid gap-6 p-6 xl:grid-cols-[1.5fr_0.9fr]">
-            <div className="space-y-4">
-              <textarea
-                value={input}
-                onChange={(event) => setInput(event.target.value)}
-                placeholder="Exemplo: Como gerente de operações, preciso aprovar pedidos acima de R$ 500 com dupla validação para reduzir fraude e manter rastreabilidade."
-                className="min-h-[220px] w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm leading-7 text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#102a72]/40 focus:bg-white focus:ring-2 focus:ring-[#102a72]/10"
-              />
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => handleAnalyze()}
-                  disabled={loading}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-[#102a72] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c205a] disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  <Sparkles className="h-4 w-4" strokeWidth={2.2} />
-                  {loading ? 'Processando...' : 'Gerar alinhamento'}
-                </button>
-                <button
-                  onClick={() => {
-                    setInput('');
-                    setResult(null);
-                    setError('');
-                  }}
-                  className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-                >
-                  Limpar
-                </button>
-              </div>
-              {loading ? (
-                <div className="rounded-2xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-[#102a72]">
-                  O Aligna está analisando a solicitação e montando o pacote de alinhamento.
-                </div>
-              ) : null}
-              {error ? <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</div> : null}
-            </div>
-
-            <div className="space-y-4">
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#102a72]">O que você recebe</p>
-                <div className="mt-4 space-y-3">
-                  {[
-                    'User story pronta para refinamento',
-                    'Critérios de aceite acionáveis',
-                    'Regras de negócio para alinhamento',
-                    'Cenários de teste para QA',
-                    'Score de clareza e alertas de ambiguidade',
-                  ].map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-2xl bg-white px-4 py-3 text-sm text-slate-700">
-                      <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" strokeWidth={2.4} />
-                      <span>{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <p className="text-sm font-semibold text-slate-900">Exemplos rápidos</p>
-                <div className="mt-3 space-y-2">
-                  {EXAMPLE_PROMPTS.map((prompt) => (
-                    <button
-                      key={prompt}
-                      onClick={() => handleAnalyze(prompt)}
-                      className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left text-xs leading-5 text-slate-600 transition hover:border-[#102a72]/20 hover:text-slate-900"
-                    >
-                      {prompt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.section>
-
-        {result ? (
-          <div ref={resultRef} className="space-y-6">
-            <motion.section {...fade(0.12)} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#102a72]">Resumo refinado</p>
-                  <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-900">Pacote principal do Aligna</h2>
-                  <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">{result.input_summary}</p>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => navigate('/projects')}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-                  >
-                    Abrir projetos
-                  </button>
-                  <button
-                    onClick={() => navigate('/code-studio')}
-                    className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-                  >
-                    Handoff técnico
-                  </button>
-                </div>
-              </div>
-              <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 px-5 py-5">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500">User Story</p>
-                <p className="mt-3 text-base leading-7 text-slate-800">{result.user_story}</p>
-              </div>
-            </motion.section>
-
-            <motion.section {...fade(0.16)} className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-              {scoreCards.map((card) => (
-                <ScoreCard key={card.key} label={card.label} value={card.value} hint={card.hint} icon={card.icon} inverse={card.inverse} />
-              ))}
-            </motion.section>
-
-            <div className="grid gap-6 xl:grid-cols-2">
-              <OutputBlock
-                title="Critérios de Aceite"
-                icon={ListChecks}
-                items={result.acceptance_criteria}
-                emptyText="Nenhum critério foi extraído."
-              />
-              <OutputBlock
-                title="Regras de Negócio"
-                icon={Target}
-                items={result.business_rules}
-                emptyText="Nenhuma regra foi extraída."
-              />
-              <OutputBlock
-                title="Cenários de Teste"
-                icon={TestTube2}
-                items={result.test_scenarios}
-                emptyText="Nenhum cenário foi sugerido."
-              />
-              <OutputBlock
-                title="Alertas de Ambiguidade"
-                icon={AlertTriangle}
-                items={result.ambiguity_alerts}
-                emptyText="Nenhum alerta relevante encontrado."
-              />
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </AppShell>
-  );
+  const navigate = useNavigate(); const resultRef = useRef(null);
+  const [need, setNeed] = useState(''); const [context, setContext] = useState(''); const [loading, setLoading] = useState(false); const [error, setError] = useState(''); const [result, setResult] = useState(null); const [history, setHistory] = useState([]); const [selectedVersion, setSelectedVersion] = useState(null); const [compareVersion, setCompareVersion] = useState(null); const [answers, setAnswers] = useState({});
+  const activeResult = selectedVersion?.result || result; const model = activeResult?.requirement_model || {}; const scores = activeResult?.clarity_score || {}; const dimensions = scores.dimensions || {};
+  const problems = useMemo(() => [...new Map([...(activeResult?.findings || []), ...(model.ambiguities || []), ...(model.missing_information || []), ...(model.contradictions || [])].filter(Boolean).map((item) => [`${item.message}-${item.severity}`, { ...item, severity: item.severity || 'medium' }])).values()], [activeResult, model]);
+  useEffect(() => { if (result && resultRef.current) resultRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, [result]);
+  const analysisInput = () => context.trim() ? `${need.trim()}\n\nContexto adicional:\n${context.trim()}` : need.trim();
+  async function analyze() { if (!need.trim()) { setError('Descreva a necessidade antes de iniciar a análise.'); return; } try { setLoading(true); setError(''); const analysis = await analyzeAlignment(analysisInput()); const entry = { version: analysis.alignment_session?.version || 1, result: analysis }; setResult(analysis); setHistory([entry]); setSelectedVersion(entry); setCompareVersion(null); setAnswers({}); } catch (err) { setError(getApiErrorMessage(err, 'Não foi possível analisar este requisito.')); } finally { setLoading(false); } }
+  async function submitClarifications() { const questions = result?.alignment_session?.questions || []; const payload = questions.map((q) => ({ question_id: q.id, answer: answers[q.id] || '' })).filter((item) => item.answer.trim()); if (!payload.length) { setError('Responda pelo menos uma pergunta para continuar.'); return; } try { setLoading(true); setError(''); const analysis = await submitAlignmentClarifications(result.alignment_session.session_uuid, payload); const entry = { version: analysis.alignment_session?.version || history.length + 1, result: analysis }; setResult(analysis); setHistory((current) => [...current, entry]); setSelectedVersion(entry); setCompareVersion(null); setAnswers({}); } catch (err) { setError(getApiErrorMessage(err, 'Não foi possível salvar os esclarecimentos.')); } finally { setLoading(false); } }
+  const difference = compareVersion && selectedVersion ? (selectedVersion.result.clarity_score?.overall ?? 0) - (compareVersion.result.clarity_score?.overall ?? 0) : null;
+  return <AppShell eyebrow="Requirement Intelligence" title="Aligna" description="Transforme uma ideia em um requisito claro, questionado e validável." actions={<button onClick={() => navigate('/projects')} className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">Abrir projetos <ArrowRight className="h-4 w-4" /></button>}><div className="mx-auto max-w-6xl space-y-8">
+    <motion.section {...fade} className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm"><div className="border-b border-slate-100 px-6 py-5"><p className="text-[10px] font-bold uppercase tracking-[.28em] text-[#102a72]">Da ideia ao requisito validado</p><div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs font-semibold text-slate-500"><span className="text-[#102a72]">IDEIA</span><ArrowRight className="h-3.5 w-3.5" /><span>ANÁLISE</span><ArrowRight className="h-3.5 w-3.5" /><span>PROBLEMAS</span><ArrowRight className="h-3.5 w-3.5" /><span>ESCLARECIMENTOS</span><ArrowRight className="h-3.5 w-3.5" /><span>REQUISITO VALIDADO</span></div></div><div className="p-6"><label className="text-sm font-bold text-slate-900">O que precisa acontecer?</label><textarea value={need} onChange={(e) => setNeed(e.target.value)} placeholder="Descreva a necessidade, o usuário envolvido e o resultado esperado." className="mt-3 min-h-[170px] w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm leading-7 text-slate-800 outline-none transition focus:border-[#102a72]/50 focus:bg-white focus:ring-2 focus:ring-[#102a72]/10" /><details className="group mt-4"><summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold text-slate-600"><ChevronDown className="h-4 w-4 transition group-open:rotate-180" />Adicionar contexto <span className="font-normal text-slate-400">(opcional)</span></summary><textarea value={context} onChange={(e) => setContext(e.target.value)} placeholder="Restrições, público, sistema envolvido ou decisões já tomadas." className="mt-3 min-h-[100px] w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none focus:border-[#102a72]/50" /></details><div className="mt-5 flex flex-wrap items-center gap-3"><button onClick={analyze} disabled={loading} className="inline-flex items-center gap-2 rounded-xl bg-[#102a72] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#0c205a] disabled:opacity-60">{loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}{loading ? 'Analisando...' : 'Analisar requisito'}</button><span className="inline-flex items-center gap-2 text-xs text-slate-400"><Paperclip className="h-4 w-4" />Anexos visuais em breve</span></div>{error && <p role="alert" className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p>}</div></motion.section>
+    {activeResult && <div ref={resultRef} className="space-y-6"><motion.section {...fade} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-[10px] font-bold uppercase tracking-[.28em] text-[#102a72]">Análise do requisito</p><h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-900">{activeResult.input_summary}</h2></div><span className={`rounded-full px-3 py-1.5 text-xs font-bold ${activeResult.alignment_session?.status === 'completed' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}`}>{activeResult.alignment_session?.status === 'completed' ? 'Requisito validado' : 'Aguardando esclarecimentos'}</span></div><div className="mt-6 grid gap-3 md:grid-cols-5">{SCORE_META.map((meta) => <ScoreCard key={meta.key} meta={meta} score={scores[meta.key] ?? 0} dimension={dimensions[meta.key]} />)}</div></motion.section>
+      <section><div className="mb-3 flex items-center gap-2"><AlertCircle className="h-5 w-5 text-slate-700" /><h2 className="text-lg font-bold text-slate-900">Problemas encontrados</h2></div><div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">{SEVERITIES.map((group) => { const items = problems.filter((item) => item.severity === group.key || (group.key === 'low' && ['info', 'informational'].includes(item.severity))); return <article key={group.key} className={`rounded-2xl border p-4 ${group.box}`}><div className="flex items-center gap-2"><span className={`h-2.5 w-2.5 rounded-full ${group.dot}`} /><h3 className="font-bold text-slate-900">{group.label}</h3><span className="ml-auto text-xs font-bold text-slate-500">{items.length}</span></div>{items.length ? <div className="mt-3 space-y-3">{items.map((item, index) => <div key={index} className="border-t border-slate-900/10 pt-3 text-xs leading-5 text-slate-700"><p>{item.message}</p>{item.recommendation && <p className="mt-1 font-medium">Ação: {item.recommendation}</p>}</div>)}</div> : <p className="mt-3 text-xs text-slate-500">Nenhum problema nesta prioridade.</p>}</article>; })}</div></section>
+      {result?.alignment_session?.status === 'required' && selectedVersion?.version === history.at(-1)?.version && <section className="rounded-3xl border border-amber-200 bg-amber-50 p-6"><div className="flex items-start gap-3"><MessageCircleQuestion className="mt-0.5 h-5 w-5 text-amber-700" /><div><p className="font-bold text-slate-900">Esclareça sem sair do contexto</p><p className="mt-1 text-sm text-slate-600">Suas respostas geram uma nova versão do requisito.</p></div></div><div className="mt-5 grid gap-4 md:grid-cols-2">{result.alignment_session.questions?.map((question) => <label key={question.id} className="rounded-2xl border border-amber-200 bg-white p-4 text-sm font-semibold text-slate-800">{question.question}<textarea value={answers[question.id] || ''} onChange={(e) => setAnswers((current) => ({ ...current, [question.id]: e.target.value }))} placeholder="Sua resposta" className="mt-3 min-h-[82px] w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-normal text-slate-700 outline-none focus:border-[#102a72]/50" /></label>)}</div><button onClick={submitClarifications} disabled={loading} className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#102a72] px-5 py-3 text-sm font-semibold text-white disabled:opacity-60">{loading ? 'Reanalisando...' : 'Salvar e reanalisar'} <ArrowRight className="h-4 w-4" /></button></section>}
+      <section><div className="mb-3 flex items-center gap-2"><FileText className="h-5 w-5 text-[#102a72]" /><h2 className="text-lg font-bold text-slate-900">Requisito estruturado</h2></div><div className="grid gap-5 lg:grid-cols-2"><RequirementSection title="User story" icon={Lightbulb} items={[model.user_story || activeResult.user_story].filter(Boolean)} emptyText="A user story será estruturada após os esclarecimentos essenciais." /><RequirementSection title="Requisitos funcionais" icon={Target} items={model.functional_requirements} emptyText="Nenhum requisito funcional confirmado." /><RequirementSection title="Regras de negócio" icon={ShieldAlert} items={model.business_rules?.length ? model.business_rules : activeResult.business_rules} emptyText="Nenhuma regra de negócio confirmada." /><RequirementSection title="Critérios de aceite" icon={TestTube2} items={model.acceptance_criteria?.length ? model.acceptance_criteria : activeResult.acceptance_criteria} emptyText="Critérios de aceite ainda não estão testáveis." format={(item) => item.given ? `Dado ${item.given}, quando ${item.when}, então ${item.then}.` : asText(item)} /><RequirementSection title="Fluxos" icon={ArrowRight} items={[...(model.main_flow || []), ...(model.alternative_flows || [])]} emptyText="O fluxo será detalhado com mais contexto." /><RequirementSection title="Exceções" icon={AlertCircle} items={model.exception_flows} emptyText="Nenhum fluxo de exceção confirmado." /></div></section>
+      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"><div className="flex items-center gap-2"><GitCompareArrows className="h-5 w-5 text-[#102a72]" /><div><h2 className="font-bold text-slate-900">Histórico do requisito</h2><p className="text-sm text-slate-500">Selecione uma versão para revisar e outra para comparar.</p></div></div><div className="mt-4 flex flex-wrap gap-2">{history.map((entry) => <button key={entry.version} onClick={() => setSelectedVersion(entry)} className={`rounded-xl border px-4 py-2 text-sm font-bold ${selectedVersion?.version === entry.version ? 'border-[#102a72] bg-[#102a72] text-white' : 'border-slate-200 bg-white text-slate-700'}`}>v{entry.version}</button>)}</div>{history.length > 1 && <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-4"><label className="text-sm text-slate-600">Comparar com <select value={compareVersion?.version || ''} onChange={(e) => setCompareVersion(history.find((entry) => String(entry.version) === e.target.value) || null)} className="ml-2 rounded-lg border border-slate-200 bg-white px-2 py-1 text-sm"><option value="">Escolher versão</option>{history.filter((entry) => entry.version !== selectedVersion?.version).map((entry) => <option key={entry.version} value={entry.version}>v{entry.version}</option>)}</select></label>{difference !== null && <p className="text-sm text-slate-700">A versão atual tem <strong className={difference >= 0 ? 'text-emerald-700' : 'text-rose-700'}>{difference >= 0 ? '+' : ''}{difference}</strong> pontos no score geral.</p>}</div>}</section>
+    </div>}</div></AppShell>;
 }

@@ -52,9 +52,10 @@ export async function readRecentAuditEntries({ limit = 40, userUuid = null, proj
       .filter((entry) => (projectUuid ? entry.projectUuid === projectUuid : true))
       .slice(-limit)
       .reverse();
-  } catch (error) {
-    if (error.code === 'ENOENT') return [];
-    throw error;
+  } catch {
+    // O log de auditoria é observabilidade auxiliar: indisponibilidade de I/O
+    // não deve tornar endpoints operacionais (como readiness) indisponíveis.
+    return [];
   }
 }
 

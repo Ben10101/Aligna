@@ -1,3 +1,0 @@
-"""
-Inicializador para agentes individuais
-"""

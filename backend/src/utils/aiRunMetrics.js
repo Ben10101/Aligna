@@ -91,6 +91,5 @@ export function buildBudgetConfig() {
     requirements_analyst: Number(process.env.BUDGET_REQUIREMENTS_TOKENS || 2600),
     qa_engineer: Number(process.env.BUDGET_QA_TOKENS || 2200),
     architect: Number(process.env.BUDGET_ARCHITECT_TOKENS || 2800),
-    developer: Number(process.env.BUDGET_DEVELOPER_TOKENS || 2200),
   };
 }

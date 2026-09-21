@@ -1,4 +1,4 @@
-import { buildRuntimeAiEnvForUser, getAiSettingsForUser, normalizeAiSettings, updateAiSettingsForUser } from '../services/aiSettingsService.js';
+import { buildRuntimeAiEnvForUser, getAiSettingsForUser, mergeAiSettings, updateAiSettingsForUser } from '../services/aiSettingsService.js';
 import { testAiProviderConnection } from '../services/aiProviderTestService.js';
 
 export async function getAiSettingsController(req, res, next) {
@@ -61,19 +61,8 @@ export async function testAiProviderController(req, res, next) {
       return res.status(400).json({ ok: false, message: 'provider é obrigatório.' });
     }
 
-    const storedSettings = await getAiSettingsForUser(req.authUser.uuid);
-    const effectiveSettings = normalizeAiSettings({
-      ...storedSettings,
-      ...(settings || {}),
-      ollama: { ...storedSettings.ollama, ...(settings?.ollama || {}) },
-      gemini: { ...storedSettings.gemini, ...(settings?.gemini || {}) },
-      openai: { ...storedSettings.openai, ...(settings?.openai || {}) },
-      deepseek: { ...storedSettings.deepseek, ...(settings?.deepseek || {}) },
-      nvidia: { ...storedSettings.nvidia, ...(settings?.nvidia || {}) },
-      anthropic: { ...storedSettings.anthropic, ...(settings?.anthropic || {}) },
-      groq: { ...storedSettings.groq, ...(settings?.groq || {}) },
-      openrouter: { ...storedSettings.openrouter, ...(settings?.openrouter || {}) },
-    });
+    const storedSettings = await getAiSettingsForUser(req.authUser.uuid, { includeSecrets: true });
+    const effectiveSettings = mergeAiSettings(storedSettings, settings || {});
 
     const result = await testAiProviderConnection(provider, effectiveSettings);
     res.status(result.ok ? 200 : 400).json(result);

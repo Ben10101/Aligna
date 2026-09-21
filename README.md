@@ -1,263 +1,184 @@
 # Aligna
 
-**Aligna ajuda times a alinhar e validar requisitos antes do desenvolvimento.**
+O Aligna é uma plataforma de planejamento de software assistida por IA. Ela transforma um briefing em backlog, requisitos verificáveis e casos de validação, com revisões humanas, histórico de versões e Quality Gates antes da implementação.
 
-## Why Aligna
+## O que o produto resolve
 
-A maioria dos problemas de software nasce antes da implementação. O Aligna ajuda a garantir clareza antes do código.
+Times perdem tempo implementando histórias ambíguas, regras implícitas e critérios de aceite que não podem ser testados. O Aligna torna essas decisões explícitas antes do código e mantém a rastreabilidade entre briefing, backlog, requisitos, QA e etapas técnicas.
 
-Em vez de pular da ideia direto para a implementação, o produto transforma uma necessidade inicial em um pacote mais claro, verificável e menos ambíguo para produto, engenharia e QA.
+## Fluxo principal
 
-## What problem it solves
+```text
+Briefing do projeto
+  → PM: backlog incremental e critérios iniciais
+  → revisão humana do backlog
+  → RA: requisito refinado e cenários BDD
+  → revisão humana dos requisitos
+  → QA: casos de validação rastreáveis
+  → revisão humana de QA
+  → arquitetura e implementação
+```
 
-Times sofrem com:
+Cada revisão cria uma nova versão pendente. Nenhum artefato é aprovado automaticamente.
 
-- retrabalho causado por requisitos vagos
-- histórias mal especificadas
-- critérios de aceite incompletos
-- regras de negócio implícitas
-- cenários de teste pensados tarde demais
+## Capacidades
 
-O Aligna reduz esse desalinhamento antes do desenvolvimento.
-
-## Core flow
-
-Entrada:
-
-- uma ideia
-- uma feature
-- uma necessidade de negócio
-
-Saida:
-
-- user story refinada
-- critérios de aceite
-- regras de negócio
-- cenários de teste
-- score de clareza
-- alertas de ambiguidade
-
-## Main product experience
-
-1. O usuário descreve a necessidade na tela principal
-2. O Aligna analisa a entrada
-3. O produto devolve um pacote estruturado para alinhamento antes do desenvolvimento
-4. O time pode seguir para projetos, handoff técnico e governança quando fizer sentido
-
-## Clarity score
-
-O produto avalia a entrada em quatro dimensoes principais:
-
-- `clarity`
-- `completeness`
-- `testability`
-- `ambiguity`
-
-Observação:
-
-- `clarity`, `completeness` e `testability` usam a lógica "quanto maior, melhor"
-- `ambiguity` representa risco semântico: quanto menor, melhor
-- `overall` consolida essas leituras em um score único
-
-## Ambiguity alerts
-
-O Aligna sinaliza problemas comuns como:
-
-- termos vagos
-- ator indefinido
-- objetivo de negócio ausente
-- fluxo sem exceção
-- regras de negócio incompletas
-- contexto insuficiente
+- Geração e revisão de backlog com PM Agent
+- Refinamento de requisitos com regras de negócio, decisões pendentes e BDD
+- Casos de QA rastreáveis aos critérios de aceite
+- Correção assistida por agente, preservando conteúdo válido
+- Quality Gates para estrutura, cobertura e rastreabilidade
+- Board de tarefas com etapas de backlog, revisão, qualidade e conclusão
+- Histórico de artefatos, decisões e execuções de agentes
+- Roteamento entre provedores de IA e recuperação de execuções interrompidas
 
 ## Stack
 
+| Camada | Tecnologias |
+|---|---|
+| Frontend | React, Vite, Tailwind CSS, Framer Motion, Axios |
+| Backend | Node.js, Express, Prisma |
+| Banco de dados | MySQL |
+| Agentes | Python, Pydantic e integrações com provedores de IA |
+| Provedores suportados | Gemini, OpenAI, Anthropic, NVIDIA, DeepSeek, Groq, OpenRouter e Ollama |
+
+## Estrutura do repositório
+
+```text
+agents/          Agentes de PM, RA, QA, arquitetura, desenvolvimento e revisão
+backend/         API Express, Prisma, serviços, controllers e scripts de smoke test
+frontend/        Aplicação React e telas de projeto, backlog, artefatos e governança
+orchestrator/    Execução isolada de agentes Python
+tests/           Testes de contratos e agentes
+docs/            Documentação de instalação, API, arquitetura e operação
+agent-evals/     Casos e resultados de avaliação dos agentes
+scripts/         Utilitários de manutenção e suporte local
+outputs/         Saídas locais geradas quando aplicável
+```
+
+Principais agentes em `agents/`:
+
+- `project_manager`: gera e recupera o backlog incremental.
+- `requirements_analyst` e `requirements_reviewer`: refinam e revisam requisitos.
+- `qa_engineer` e `qa_reviewer`: geram e revisam os casos de validação.
+- `architect`, `developer`, `developer_backend` e `developer_frontend`: apoiam as etapas técnicas posteriores.
+
+## Executar localmente
+
+### Pré-requisitos
+
+- Node.js 20 ou superior
+- Python 3.10 ou superior
+- MySQL disponível localmente
+
+### 1. Instale as dependências
+
+```bash
+cd backend
+npm install
+
+cd ../frontend
+npm install
+
+cd ..
+python -m pip install -r requirements.txt
+```
+
+### 2. Configure o ambiente
+
+Crie o arquivo `.env` a partir de `.env.example` e configure, no mínimo:
+
+```dotenv
+DATABASE_URL=mysql://usuario:senha@localhost:3306/ai_factory
+AUTH_ACCESS_SECRET=uma-chave-longa-e-aleatoria
+AI_SETTINGS_SECRET=outra-chave-longa-e-aleatoria
+FRONTEND_ORIGIN=http://localhost:5173
+```
+
+Adicione ao menos uma chave de provedor de IA, como `GEMINI_API_KEY`, `OPENAI_API_KEY` ou `NVIDIA_API_KEY`, para executar os agentes.
+
+### 3. Prepare o banco
+
+```bash
+cd backend
+npm run prisma:generate
+npm run prisma:migrate:deploy
+```
+
+Para desenvolvimento local com novas migrações, use `npm run prisma:migrate:dev`.
+
+### 4. Inicie os serviços
+
+Em um terminal:
+
+```bash
+cd backend
+npm run dev
+```
+
+Em outro terminal:
+
+```bash
+cd frontend
+npm run dev
+```
+
+Abra `http://localhost:5173`. A API fica disponível em `http://localhost:3001/api` e o health check em `http://localhost:3001/health`.
+
+> O `docker-compose.yml` atual ainda sobe PostgreSQL, enquanto a aplicação usa MySQL via Prisma. Use o setup local com MySQL até que o Compose seja alinhado à infraestrutura da aplicação.
+
+## Qualidade e testes
+
 ### Frontend
 
-- React
-- Vite
-- Tailwind CSS
-- Framer Motion
-- Axios
+```bash
+cd frontend
+npm run build
+npm run test:smoke:core
+```
 
 ### Backend
 
-- Node.js
-- Express
-- Prisma
-- MySQL
-
-### AI runtime
-
-- Python agent layer
-- multiple provider configuration
-- OpenAI / Anthropic / Gemini / Groq / OpenRouter / Ollama support
-
-## Repository structure
-
-```text
-frontend/                 main product UI
-backend/                  main API and services
-agents/                   agent implementations
-orchestrator/             legacy orchestration compatibility layer
-tests/                    root-level smoke and agent tests
-scripts/maintenance/      maintenance and local support scripts
-scripts/windows/          Windows helper scripts
-experiments/              archived non-canonical implementations
-docs/                     product and repository documentation
-generated-projects/       generated example output
-```
-
-More detail:
-
-- canonical architecture: [docs/ALIGNA_ARCHITECTURE.md](docs/ALIGNA_ARCHITECTURE.md)
-- repository audit: [docs/REPOSITORY_AUDIT.md](docs/REPOSITORY_AUDIT.md)
-
-## Run locally
-
-### 1. Install dependencies
-
-Backend:
-
 ```bash
 cd backend
-npm install
+npm run test:smoke:core
+npm run test:pipeline-coherence:smoke
+npm run test:project-manager-recovery:smoke
+npm run test:requirements-recovery:smoke
+npm run test:qa-recovery:smoke
 ```
 
-Frontend:
+### Agentes Python
 
 ```bash
-cd frontend
-npm install
+python -m unittest tests.test_qa_validation_cases
+python -m unittest tests.test_requirements_reviewer
 ```
 
-Python dependencies, if you want to run the legacy/agent layer locally:
+## Endpoints de referência
 
-```bash
-pip install -r requirements.txt
-```
+- `GET /health`: health check do backend.
+- `POST /api/alignment/analyze`: análise rápida de alinhamento de uma entrada.
+- `POST /api/projects/:projectUuid/generate-backlog`: gera o backlog a partir do briefing.
+- `POST /api/tasks/:taskUuid/artifacts/:artifactUuid/repair`: cria uma nova versão proposta por um agente revisor.
 
-### 2. Configure environment
+As rotas completas estão documentadas em [docs/API.md](docs/API.md).
 
-Create and adjust your local `.env` at the repository root with at least:
+## Documentação
 
-- database connection
-- auth secrets
-- optional AI provider keys
+- [Instalação](docs/INSTALL.md)
+- [Arquitetura](docs/ARCHITECTURE.md)
+- [API](docs/API.md)
+- [Engine de requisitos](docs/REQUIREMENT_ENGINE.md)
+- [Modelo de roteamento de IA](docs/MODEL_ROUTER.md)
+- [Checklist de prontidão para produção](docs/PRODUCTION_READINESS_CHECKLIST.md)
+- [Runbook de incidentes](docs/RUNBOOK_INCIDENT_RESPONSE.md)
+- [Runbook de release e rollback](docs/RUNBOOK_RELEASE_ROLLBACK.md)
+- [Contribuição](docs/CONTRIBUTING.md)
 
-### 3. Start the backend
+## Princípios de operação
 
-```bash
-cd backend
-npm run dev
-```
-
-### 4. Start the frontend
-
-```bash
-cd frontend
-npm run dev
-```
-
-### 5. Open the app
-
-Frontend:
-
-- `http://localhost:5173`
-
-Backend API:
-
-- `http://localhost:3001/api`
-
-Health:
-
-- `http://localhost:3001/health`
-
-## Main API endpoint for the new MVP
-
-Analyze alignment:
-
-```http
-POST /api/alignment/analyze
-```
-
-Example payload:
-
-```json
-{
-  "input": "Como gerente de operações, preciso aprovar reembolsos acima de R$ 500 com dupla validação para reduzir fraude."
-}
-```
-
-Example response shape:
-
-```json
-{
-  "input_summary": "",
-  "user_story": "",
-  "acceptance_criteria": [],
-  "business_rules": [],
-  "test_scenarios": [],
-  "clarity_score": {
-    "overall": 0,
-    "clarity": 0,
-    "completeness": 0,
-    "testability": 0,
-    "ambiguity": 0
-  },
-  "ambiguity_alerts": []
-}
-```
-
-## Screenshots
-
-Add product screenshots here:
-
-- `docs/screenshots/home-aligna.png`
-- `docs/screenshots/alignment-output.png`
-- `docs/screenshots/projects-board.png`
-
-Suggested placeholders:
-
-```text
-[ Screenshot: Home with alignment input ]
-[ Screenshot: Clarity score and ambiguity alerts ]
-[ Screenshot: Project board and handoff flow ]
-```
-
-## Roadmap
-
-### Now
-
-- clear alignment-first positioning
-- standardized requirement output
-- clarity score
-- ambiguity alerts
-- cleaner repository structure
-
-### Next
-
-- richer project-to-alignment traceability
-- benchmark across domains
-- stronger historical analytics
-- broader visual regression and deeper E2E coverage
-
-### Later
-
-- stronger release governance
-- automated remediation playbooks
-- broader requirement patterns by domain
-
-## Product positioning
-
-Aligna is no longer presented as a generic full software factory first.
-
-The product now emphasizes:
-
-- alignment
-- clarity
-- validation
-- predictability
-- less rework before development
-
-Broader implementation capabilities can remain available as supporting surfaces, but they are not the main story of the product anymore.
+- A IA propõe; uma pessoa aprova.
+- Decisões humanas são preservadas no histórico.
+- Uma lacuna no QA não autoriza o QA a inventar uma regra de produto.
+- Regras confirmadas devem ser formalizadas em critérios BDD no requisito antes de serem consideradas prontas para implementação.

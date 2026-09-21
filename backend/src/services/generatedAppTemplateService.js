@@ -33,8 +33,25 @@ async function walk(dir) {
   return files;
 }
 
-export async function materializeFullstackTemplate({ destinationRoot, projectName, projectSlug }) {
-  const templateFiles = await walk(TEMPLATE_ROOT);
+function shouldIncludeTemplateFile(relativeTemplatePath, includeRelativeRoots = []) {
+  if (!includeRelativeRoots?.length) return true;
+
+  const normalizedPath = relativeTemplatePath.replace(/\\/g, '/');
+  return includeRelativeRoots.some((root) => {
+    const normalizedRoot = String(root || '').replace(/\\/g, '/').replace(/\/+$/, '');
+    return normalizedPath === normalizedRoot || normalizedPath.startsWith(`${normalizedRoot}/`);
+  });
+}
+
+async function materializeTemplateFiles({
+  destinationRoot,
+  projectName,
+  projectSlug,
+  includeRelativeRoots = [],
+}) {
+  const templateFiles = (await walk(TEMPLATE_ROOT)).filter((templateFile) =>
+    shouldIncludeTemplateFile(path.relative(TEMPLATE_ROOT, templateFile), includeRelativeRoots)
+  );
   const tokens = {
     PROJECT_NAME: projectName,
     PROJECT_SLUG: projectSlug,
@@ -66,4 +83,22 @@ export async function materializeFullstackTemplate({ destinationRoot, projectNam
   }
 
   return writtenFiles;
+}
+
+export async function materializeFullstackTemplate({ destinationRoot, projectName, projectSlug }) {
+  return materializeTemplateFiles({ destinationRoot, projectName, projectSlug });
+}
+
+export async function materializeFullstackTemplateSubset({
+  destinationRoot,
+  projectName,
+  projectSlug,
+  includeRelativeRoots = [],
+}) {
+  return materializeTemplateFiles({
+    destinationRoot,
+    projectName,
+    projectSlug,
+    includeRelativeRoots,
+  });
 }

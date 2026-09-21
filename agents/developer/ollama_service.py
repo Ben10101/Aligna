@@ -35,7 +35,10 @@ def compact_prompt(prompt: str, ratio: float = 0.6) -> str:
 
 def ensure_model_available(model: str) -> bool:
     """
-    Verifica se o modelo está disponível. Se não estiver, tenta baixar.
+    Verifica se o modelo está disponível localmente.
+
+    Downloads são uma ação explícita do usuário (`ollama pull`); uma execução
+    de agente nunca deve baixar um modelo por conta própria.
     """
     try:
         client = get_ollama_client()
@@ -46,17 +49,8 @@ def ensure_model_available(model: str) -> bool:
             print(f"[Ollama Service] Modelo '{model}' já está disponível", file=sys.stderr)
             return True
 
-        print(f"[Ollama Service] Modelo '{model}' não encontrado. Tentando baixar...", file=sys.stderr)
-
-        try:
-            print(f"[Ollama Service] Iniciando download de '{model}'... Isso pode levar alguns minutos.", file=sys.stderr)
-            client.pull(model)
-            print(f"[Ollama Service] Modelo '{model}' baixado com sucesso!", file=sys.stderr)
-            return True
-        except Exception as pull_err:
-            print(f"[Ollama Service] Não conseguiu baixar '{model}': {pull_err}", file=sys.stderr)
-            print(f"[Ollama Service] Execute manualmente: ollama pull {model}", file=sys.stderr)
-            return False
+        print(f"[Ollama Service] Modelo '{model}' não encontrado localmente. Execute manualmente: ollama pull {model}", file=sys.stderr)
+        return False
 
     except Exception as e:
         print(f"[Ollama Service] Erro ao verificar modelos: {e}", file=sys.stderr)
@@ -75,8 +69,7 @@ def generate_with_ollama(
     print(f"[Ollama Service] Tentando com o modelo local: {model}...", file=sys.stderr)
 
     if not ensure_model_available(model):
-        print(f"[Ollama Service] Modelo '{model}' não disponível. Usando fallback...", file=sys.stderr)
-        return [] if is_json else "Modelo não disponível. Tente: ollama pull " + model
+        raise RuntimeError(f"Modelo Ollama '{model}' não está instalado. Execute manualmente: ollama pull {model}")
 
     options = {
         "temperature": 0.2 if is_json else 0.7,

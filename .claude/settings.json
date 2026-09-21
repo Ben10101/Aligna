@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(rg *)",
+      "Bash(npm --prefix backend run test:security:baseline)",
+      "Bash(npm --prefix backend run test:security:smoke)",
+      "Bash(npm --prefix backend run test:auth-governance:smoke)",
+      "Bash(npm --prefix backend run test:auth-user-flow:smoke)",
+      "Bash(npm --prefix frontend run build)",
+      "Bash(python -m py_compile *)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./backend/runtime/**)",
+      "Read(./secrets/**)",
+      "Bash(git reset --hard *)",
+      "Bash(git checkout -- *)",
+      "Bash(del *)",
+      "Bash(rm -rf *)"
+    ]
+  },
+  "env": {
+    "AI_PROMPT_VERSION": "v2-claude-agents"
+  }
+}

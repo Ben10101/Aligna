@@ -1,0 +1,30 @@
+{
+  "project_id": "sprint5-frontend-eval",
+  "idea": "Sistema para gerenciar chamados internos com prioridade, anexos, responsavel, status e historico para colaboradores, suporte e gestores.",
+  "architecture": "Stack: React no frontend, Express no backend, MySQL com Prisma, JWT para autenticacao.\nModulos: chamados, anexos, notificacoes, perfis de acesso e dashboard gerencial.\nAPI: contratos REST para tickets, anexos e preferencias.\nSeguranca: controle de acesso por papel e rastreabilidade de alteracoes.",
+  "backend_output": {
+    "primary_entity": "Ticket",
+    "attributes": [
+      {
+        "name": "title",
+        "type": "string",
+        "sql_type": "VARCHAR(255) NOT NULL"
+      },
+      {
+        "name": "description",
+        "type": "text",
+        "sql_type": "TEXT"
+      },
+      {
+        "name": "status",
+        "type": "string",
+        "sql_type": "VARCHAR(50) DEFAULT 'active'"
+      },
+      {
+        "name": "priority",
+        "type": "string",
+        "sql_type": "VARCHAR(50) DEFAULT 'medium'"
+      }
+    ]
+  }
+}

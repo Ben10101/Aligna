@@ -14,6 +14,7 @@ export default function GlobalBacklogPage() {
         title="Backlog Global"
         subtitle="Arraste histórias para o agente processar e gerar artefatos."
         agentColumnTitle="Analista de Requisitos (Global)"
+        contextLabel="backlog global"
       />
     </AppShell>
   );

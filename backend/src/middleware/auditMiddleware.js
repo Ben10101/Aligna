@@ -9,7 +9,6 @@ function matchesAuditedRoute(req) {
     req.path.includes('/generate-architecture') ||
     req.path.includes('/requirements/run') ||
     req.path.includes('/qa/run') ||
-    req.path.includes('/implementation/run') ||
     req.path.startsWith('/api/observability/')
   );
 }
@@ -23,7 +22,6 @@ function inferActionType(req) {
   if (req.path.includes('/generate-architecture')) return 'project_generate_architecture';
   if (req.path.includes('/requirements/run')) return 'task_generate_requirements';
   if (req.path.includes('/qa/run')) return 'task_generate_qa';
-  if (req.path.includes('/implementation/run')) return 'task_generate_implementation';
   if (req.path.startsWith('/api/projects') && req.method === 'POST') return 'project_create';
   if (req.path.includes('/comments') && req.method === 'POST') return 'task_comment_create';
   if (req.path.startsWith('/api/tasks') && req.method === 'PATCH') return 'task_update';

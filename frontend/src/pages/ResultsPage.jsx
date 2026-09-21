@@ -99,7 +99,7 @@ export default function ResultsPage() {
           <div className="dashboard-panel-header">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#102a72]">Board de apoio</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#102a72]">Board do projeto refinado</p>
                 <h3 className="mt-2 text-xl font-bold text-slate-900">Visão operacional do backlog</h3>
               </div>
               <span className="w-fit rounded-full bg-slate-100 px-4 py-2 text-xs font-semibold text-slate-600">
@@ -108,7 +108,14 @@ export default function ResultsPage() {
             </div>
           </div>
           <div className="p-6">
-            <BacklogKanban backlogMarkdown={data.backlog} projectId={projectId} stageName="results" />
+            <BacklogKanban
+              backlogMarkdown={data.backlog}
+              projectId={projectId}
+              stageName="results"
+              contextLabel="projeto refinado"
+              title="Board de Refinamento"
+              subtitle="As histórias ficam organizadas dentro do contexto deste projeto antes de seguir para a próxima etapa."
+            />
           </div>
         </div>
 
