@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { AlertTriangle, Check, CheckCircle2, ChevronRight, FilePenLine, ListChecks, LoaderCircle, MessageSquareText, Plus, RefreshCw, ShieldAlert, Sparkles, Trash2, X } from 'lucide-react'
+import { AlertTriangle, Check, CheckCircle2, ChevronRight, Download, FilePenLine, ListChecks, LoaderCircle, MessageSquareText, Plus, RefreshCw, ShieldAlert, Sparkles, Trash2, X } from 'lucide-react'
 import AppShell from '../components/AppShell'
 import { applyBacklogProposals, applyProjectBacklogStoryReview, consolidateProjectBacklogStories, decideBacklogProposal, getApiErrorMessage, getProject, moveProjectBacklogAcceptanceCriterion, publishProjectBacklog, revalidateProjectBacklog, reviewProjectBacklogStory, updateProjectBacklogStory } from '../services/api'
+import { exportPublishedBacklogStoriesPdf } from '../utils/backlogStoriesExport'
 
 const labels = { approved: 'Aprovada', confirmed: 'Confirmada · revisar', proposed: 'Proposta', needs_review: 'Em revisão', rejected: 'Rejeitada' }
 const tones = { approved: 'bg-emerald-100 text-emerald-800', confirmed: 'bg-amber-100 text-amber-800', proposed: 'bg-blue-100 text-blue-800', needs_review: 'bg-amber-100 text-amber-800', rejected: 'bg-rose-100 text-rose-800' }
@@ -49,6 +50,7 @@ export default function BacklogReviewPage() {
   const contract = project?.intakeConfig?.backlogContract || {}
   const qualityReview = contract.qualityReview || contract.quality_review || {}
   const stories = Array.isArray(contract.stories) ? contract.stories : []
+  const backlogIsPublished = contract.publicationStatus === 'published'
   const reconciliationFindings = Array.isArray(project?.backlogReconciliation?.findings) ? project.backlogReconciliation.findings : []
   const duplicateStoryFor = (storyId) => {
     const id = String(storyId || '').toLowerCase()
@@ -187,6 +189,14 @@ export default function BacklogReviewPage() {
     } catch (requestError) { setError(getApiErrorMessage(requestError, 'Falha ao revalidar o backlog.')) } finally { setRevalidating(false) }
   }
 
+  const exportStories = () => {
+    try {
+      exportPublishedBacklogStoriesPdf(project, stories, contract.publishedAt)
+    } catch (exportError) {
+      setError(getApiErrorMessage(exportError, 'Não foi possível exportar as user stories publicadas.'))
+    }
+  }
+
   const openConsolidation = (sourceStory, targetStoryId) => {
     setError(null)
     setConsolidation({ sourceStory, targetStoryId })
@@ -222,7 +232,7 @@ export default function BacklogReviewPage() {
 
   return <AppShell eyebrow="Revisão do backlog" title="Validação humana das tasks" description="Revise, responda lacunas e aprove o backlog antes da publicação.">
     <section className="dashboard-panel p-4 sm:p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-lg font-bold">{project?.name || 'Projeto'}</h2><p className="text-sm text-slate-600">{stories.length} stories · Quality Gate: {qualityReview.decision || (legacyQualityGateSatisfied ? 'PASS' : 'pendente')}</p></div><div className="flex flex-wrap gap-2"><button type="button" disabled={busy || revalidating || !stories.length || !allStoriesApproved || !allStoriesReady || contract.publicationStatus === 'published'} onClick={revalidate} className="dashboard-button-secondary inline-flex items-center gap-2">{revalidating ? <LoaderCircle size={16} className="animate-spin" /> : <RefreshCw size={16} />}{revalidating ? 'Revalidando...' : 'Revalidar backlog'}</button><button type="button" disabled={busy || revalidating || !stories.length || !allStoriesApproved || !allStoriesReady || !qualityGatePassed || contract.publicationStatus === 'published'} onClick={publish} className="dashboard-button-primary">{contract.publicationStatus === 'published' ? 'Já publicado' : 'Aprovar e enviar ao board'}</button></div></div>
+      <div className="flex flex-wrap items-center justify-between gap-3"><div><h2 className="text-lg font-bold">{project?.name || 'Projeto'}</h2><p className="text-sm text-slate-600">{stories.length} stories · Quality Gate: {qualityReview.decision || (legacyQualityGateSatisfied ? 'PASS' : 'pendente')}</p></div><div className="flex flex-wrap gap-2">{backlogIsPublished && <button type="button" disabled={!stories.length} onClick={exportStories} className="dashboard-button-secondary inline-flex items-center gap-2"><Download size={16} />Exportar stories em PDF</button>}<button type="button" disabled={busy || revalidating || !stories.length || !allStoriesApproved || !allStoriesReady || backlogIsPublished} onClick={revalidate} className="dashboard-button-secondary inline-flex items-center gap-2">{revalidating ? <LoaderCircle size={16} className="animate-spin" /> : <RefreshCw size={16} />}{revalidating ? 'Revalidando...' : 'Revalidar backlog'}</button><button type="button" disabled={busy || revalidating || !stories.length || !allStoriesApproved || !allStoriesReady || !qualityGatePassed || backlogIsPublished} onClick={publish} className="dashboard-button-primary">{backlogIsPublished ? 'Já publicado' : 'Aprovar e enviar ao board'}</button></div></div>
       {hasStructuralScore && <p className="mt-3 text-xs text-slate-500">Qualidade estrutural: {structuralScore}/{qualityMaximum}. Limiar mínimo: {qualityThreshold}/{qualityMaximum}. {qualityReview.decision === 'PASS' ? 'Sem bloqueios de decisao.' : 'Este score nao representa aprovacao para publicacao.'}</p>}
       {error && <p className="mt-4 rounded-xl bg-rose-50 p-3 text-sm text-rose-700">{error}</p>}
       {pendingReadinessCount > 0 && <p className="mt-4 rounded-xl bg-amber-50 p-3 text-sm text-amber-800">{pendingReadinessCount} {pendingReadinessCount === 1 ? 'story precisa' : 'stories precisam'} passar pela revisão do agente antes da aprovação.</p>}
