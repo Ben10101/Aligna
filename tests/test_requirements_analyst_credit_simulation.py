@@ -52,6 +52,23 @@ class RequirementsAnalystCreditSimulationTests(unittest.TestCase):
         self.assertIn("backlog.story_2", source_ids)
         self.assertIn("backlog.story_1", source_ids)
 
+    def test_contract_tolerates_null_current_story_and_refinement_context(self):
+        semantic = {
+            "domain": "generic", "intent": "view", "clarifying_questions": [],
+            "has_input": False, "has_document": False, "has_form": False, "has_sensitive_data": False,
+            "actors": [], "entities": [], "goals": [], "actions": [], "states": [], "ambiguities": [],
+        }
+        with patch.object(self.agent, "_discover_semantic_context", return_value=semantic):
+            null_story_contract = self.agent._build_refinement_contract(
+                "Como operador, quero consultar um visitante.", "", {"storyContext": {"currentStory": None}}
+            )
+            null_refinement_contract = self.agent._build_refinement_contract(
+                "Como operador, quero consultar um visitante.", "", {"storyContext": {"currentStory": {"refinementContext": None}}}
+            )
+
+        self.assertEqual({}, null_story_contract["upstream_context"])
+        self.assertEqual({}, null_refinement_contract["upstream_context"])
+
     def test_semantic_discovery_normalizes_null_categories_and_requests_json(self):
         response = {
             "domain": "generic", "intent": "view",

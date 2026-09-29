@@ -288,6 +288,10 @@ class RequirementsAnalyst:
         semantic_context = self._discover_semantic_context(idea, backlog, project_context)
         domain = semantic_context.get("domain") or "generic"
         intent = semantic_context.get("intent") or "generic"
+        context = project_context if isinstance(project_context, dict) else {}
+        story_context = context.get("storyContext") if isinstance(context.get("storyContext"), dict) else {}
+        current_story = story_context.get("currentStory") if isinstance(story_context.get("currentStory"), dict) else {}
+        upstream_context = current_story.get("refinementContext") if isinstance(current_story.get("refinementContext"), dict) else {}
         # This is a traceability envelope, not a catalogue of business rules.  In
         # particular, do not encode domain defaults here: the model must derive
         # business meaning from the story and the supplied project sources.
@@ -315,11 +319,10 @@ class RequirementsAnalyst:
             "evidence_sources": self._evidence_sources(idea, backlog, project_context),
             "feature_profile": self._feature_profile(idea, project_context, semantic_context),
             "scope_assessment": self._assess_scope(idea, semantic_context),
-            "upstream_context": ((project_context or {}).get("storyContext") or {}).get("currentStory", {}).get("refinementContext", {}) if isinstance(project_context, dict) else {},
+            "upstream_context": upstream_context,
             "semantic_context": semantic_context,
             "compact_context": self._compact_project_context(project_context),
         }
-        current_story = ((project_context or {}).get("storyContext") or {}).get("currentStory") if isinstance(project_context, dict) else {}
         if isinstance(current_story, dict):
             contract["upstream_story_id"] = current_story.get("id") or None
             contract["upstream_review"] = {
